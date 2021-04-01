@@ -1,42 +1,47 @@
 package chamadostecnicos.model;
 
-//import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoriaServico {
 
-	private long id;
+	private int id;
 	private String nome;
-	private String descicao;
-	//private List<Servico> servicos;
+	private String descricao;
+	private List<Servico> servicos;
 		
 		
 	public CategoriaServico() {
 		super();
+		this.id = 0;
+		this.nome  = "";
+		this.descricao  = "";
+		this.servicos = new ArrayList<Servico>();
 	}
 		
-	public CategoriaServico(long id, String nome, String descicao /*, List<Servico> servicos*/) {
+	public CategoriaServico(int id, String nome, String descicao) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.descicao = descicao;
-		//this.servicos = servicos;
+		this.descricao = descicao;
+		this.servicos = new ArrayList<Servico>();
 	}
 
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 		
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 		
-	public String getDescicao() {
-		return descicao;
+	public String getDescricao() {
+		return descricao;
 	}
 		
-	public void setDescicao(String descicao) {
-		this.descicao = descicao;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public String getNome() {
@@ -47,13 +52,23 @@ public class CategoriaServico {
 		this.nome = nome;
 	}
 		
-//	public List<Servico> getServicos() {
-//		return servicos;
-//	}
-//
-//	public void setServicos(List<Servico> servicos) {
-//		this.servicos = servicos;
-//	}
+	public List<Servico> getServicos() {
+		return servicos;
+	}
+	
+	//setter servicos
+	public void addServico(Servico servico) {
+		this.servicos.add(servico);
+		servico.setCategoria(this);
+	}
 
+	@Override
+	public String toString() {
+		return "Categoria "
+				+ "/n Id: " + id
+				+ "/n Nome:" + nome 
+				+ "/n Descrição: " + descricao ;
+	}
+	
 }
 

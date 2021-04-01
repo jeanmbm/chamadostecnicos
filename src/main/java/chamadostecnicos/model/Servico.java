@@ -3,18 +3,24 @@ package chamadostecnicos.model;
 
 public class Servico {
 
-	private long id;
+	private int id;
 	private String nome;
-	private CategoriaServico categoria;
 	private String descricao;
 	private Prioridade prioridade;
+	private CategoriaServico categoria;
 	
 	
 	public Servico() {
 		super();
+		id = 0;
+		nome = "";
+		descricao = "";
+		prioridade = Prioridade.VAZIO;
+		//categoria = new CategoriaServico();
 	}
 
-	public Servico(long id, String nome, CategoriaServico categoria, String descricao, Prioridade prioridade) {
+
+	public Servico(int id, String nome, CategoriaServico categoria, String descricao, Prioridade prioridade) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -24,11 +30,11 @@ public class Servico {
 	}
 	
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -43,7 +49,7 @@ public class Servico {
 	public String getDescricao() {
 		return descricao;
 	}
-	
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
@@ -63,5 +69,18 @@ public class Servico {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Servico "
+				+ "/n Id: " + id
+				+ "/n Nome:" + nome 
+				+ "/n Descrição: " + descricao 
+				+ "/n Prioridade: " + prioridade 
+				+ "/n Categoria:" + categoria.toString();
+	}
+	
+	
 	
 }
