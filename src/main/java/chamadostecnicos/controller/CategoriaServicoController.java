@@ -12,7 +12,7 @@ import chamadostecnicos.model.Servico;
 public class CategoriaServicoController {
 	
 
-	List<CategoriaServico> categorias = new ArrayList<CategoriaServico>();
+	static List<CategoriaServico> categorias = new ArrayList<CategoriaServico>();
 	CategoriaServico categoria;
 	Scanner scan = new Scanner(System.in);
 	Random r = new Random();
@@ -20,10 +20,15 @@ public class CategoriaServicoController {
 
 	// C - create
 	public void cadastrarCategoria() {
-		CategoriaServicoController categoriaServicoController = new CategoriaServicoController();
+		CategoriaServicoController controller = new CategoriaServicoController();
+		
+		CategoriaServico categoria1 = new CategoriaServico(r.nextInt(100), "Categoria teste", "Descrição teste");
+		categorias.add(categoria1);
+		
 		categoria = new CategoriaServico();
-		categoria = categoriaServicoController.preencherDadosCategoria();
+		categoria = controller.preencherDadosCategoria();
 		categorias.add(categoria);
+		System.out.println("");
 		System.out.println("!! Categoria cadastrada com suscesso !!");
 		System.out.println("");
 	}
@@ -31,7 +36,7 @@ public class CategoriaServicoController {
 	// R - read
 	public void listarCategorias() {
 		List<CategoriaServico> categorias = new ArrayList<CategoriaServico>();
-		categorias = this.categorias;
+		categorias = CategoriaServicoController.categorias;
 		exibirDadosCategoria(categorias);
 	}
 	
@@ -76,15 +81,35 @@ public class CategoriaServicoController {
 	
 	
 	// Codigos auxiliares
+	public void pegarCategoriaPorId(int id, Servico servico) {
+		List<CategoriaServico> categorias = new ArrayList<CategoriaServico>();
+		categorias = CategoriaServicoController.categorias;
+		
+		if (categorias.size() == 0) {
+			System.out.println("!! Não há categorias cadastradas !!");
+		} else {
+			for (int i = 0; i < categorias.size(); i++) {
+				categoria = categorias.get(i);
+				if(categoria.getId() == id) {
+					servico.setCategoria(categoria);
+				} else {
+					System.out.println("!! Categoria não encontrada !!");
+				}
+			}
+		}
+	}
+	
 	
 	public CategoriaServico preencherDadosCategoria() {
 		CategoriaServico categoria = new CategoriaServico();
-		System.out.println("Digite o nome da categoria:");
+		
+		System.out.printf("Digite o nome da categoria: ");
 		categoria.setNome(String.valueOf(scan.nextLine()));
-		System.out.println("Digite a descrição da categoria:");
+		
+		System.out.printf("Digite a descrição da categoria: ");
 		categoria.setDescricao(String.valueOf(scan.nextLine()));
+		
 		categoria.setId(r.nextInt(100));
-		System.out.println(categoria.getId());
 
 		return categoria;
 	}
@@ -94,59 +119,35 @@ public class CategoriaServicoController {
 		if (categorias.isEmpty()) {
 			System.out.println("!! Não há categorias cadastradas !!");
 		} else {
+			System.out.println("");
 			System.out.println("=================================================================");
 			System.out.println("=========================\\ CATEGORIAS //=========================");
 			for (CategoriaServico categoriaServico : categorias) {
 				System.out.println("");
 				System.out.println("Id: " + categoriaServico.getId());
-				System.out.println("Nome da categoria: " + categoriaServico.getNome());
-				System.out.println("Descrição da categoria: " + categoriaServico.getDescricao());
-				System.out.println("Servicos: " + categoriaServico.getServicos());
+				System.out.println("Nome: " + categoriaServico.getNome());
+				System.out.println("Descrição: " + categoriaServico.getDescricao());
 				System.out.println(" ");
 				System.out.println("==================================================================");
 			}
 			System.out.println("==================================================================");
+			System.out.println("");
 		}
 	}
 	
 	
 	public CategoriaServico editarCategoria(CategoriaServico categoria) {
 		CategoriaServico categoriaEditada = new CategoriaServico();
+		
 		System.out.println("Digite o nome da categoria:");
 		categoriaEditada.setNome(String.valueOf(scan.nextLine()));
+		
 		System.out.println("Digite a descrição da categoria:");
 		categoriaEditada.setDescricao(String.valueOf(scan.nextLine()));
+		
 		categoriaEditada.setId(categoria.getId());
 		
 		return categoriaEditada;
 	}
-	
-	
-	
-	public CategoriaServico pegarCategoriaPorId(int id, Servico servico) {
-		CategoriaServico aux = null;
-		
-		for (CategoriaServico categoriaServico : categorias) {
-			if (categoriaServico.getId() == id) {
-				aux = categoriaServico;
-			}
-		}
-//		for (int i = 0; i < categorias.size(); i++) {
-//			categoria = categorias.get(i);
-//			if (categoria.getId() == id) {
-//				aux = categoria;
-//			}
-//		}
-			
-		if (aux == null) {
-			System.out.println("!! Categoria não localizada  !!");
-			return null;
-			
-		} else {
-			categoria.addServico(servico);
-			return aux;
-		}
-	}
-	
 	
 }

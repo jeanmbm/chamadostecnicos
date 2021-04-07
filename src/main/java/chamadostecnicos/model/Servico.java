@@ -16,15 +16,15 @@ public class Servico {
 		nome = "";
 		descricao = "";
 		prioridade = Prioridade.VAZIO;
-		//categoria = new CategoriaServico();
+		categoria = new CategoriaServico();
 	}
 
 
-	public Servico(int id, String nome, CategoriaServico categoria, String descricao, Prioridade prioridade) {
+	public Servico(int id, String nome, String descricao, Prioridade prioridade) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.categoria = categoria;
+		this.categoria = new CategoriaServico();;
 		this.descricao = descricao;
 		this.prioridade = prioridade;
 	}
@@ -73,14 +73,11 @@ public class Servico {
 
 	@Override
 	public String toString() {
-		return "Servico "
-				+ "/n Id: " + id
-				+ "/n Nome:" + nome 
-				+ "/n Descrição: " + descricao 
-				+ "/n Prioridade: " + prioridade 
-				+ "/n Categoria:" + categoria.toString();
+		return "\n Id: " + id + 
+			   "\n Nome: " + nome + 
+			   "\n Descrição: " + descricao + 
+			   "\n Prioridade: " + prioridade + 
+			   "\n Categoria: " + categoria;
 	}
-	
-	
-	
+
 }

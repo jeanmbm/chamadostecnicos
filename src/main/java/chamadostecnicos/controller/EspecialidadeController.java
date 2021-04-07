@@ -6,17 +6,24 @@ import java.util.Random;
 import java.util.Scanner;
 
 import chamadostecnicos.model.Especialidade;
+import chamadostecnicos.model.Usuario;
 
 public class EspecialidadeController {
+	
 
-	List<Especialidade> especialidades = new ArrayList<Especialidade>();
+	static List<Especialidade> especialidades = new ArrayList<Especialidade>();
 	Especialidade especialidade;
 	Scanner scan = new Scanner(System.in);
 	Random r = new Random();
 	
+	
 	// C - create
 	public void cadastrarEspecialidade() {
 		EspecialidadeController controller = new EspecialidadeController();
+		
+		Especialidade especialidade1 = new Especialidade(r.nextInt(100), "Especialidade teste", "Descrição teste");
+		especialidades.add(especialidade1);
+		
 		especialidade = new Especialidade();
 		especialidade = controller.preencherDadosEspecialidade();
 		especialidades.add(especialidade);
@@ -25,13 +32,15 @@ public class EspecialidadeController {
 		System.out.println("");
 	}
 		
+	
 	// R - read
 	public void listarEspecialidades() {
 		List<Especialidade> especialidades = new ArrayList<Especialidade>();
-		especialidades = this.especialidades;
+		especialidades = EspecialidadeController.especialidades;
 		exibirDadosEspecialidade(especialidades);
 	}
 		
+	
 	// U - update
 	public void atualizarEspecialidade(int id) {
 		List<Especialidade> removerEspecialidade = new ArrayList<Especialidade>();
@@ -54,6 +63,7 @@ public class EspecialidadeController {
 		}
 	}
 			
+	
 	// D - delete
 	public void apagarEspecialidades (int id) {
 		List<Especialidade> removerEspecialidade = new ArrayList<Especialidade>();
@@ -73,24 +83,48 @@ public class EspecialidadeController {
 		
 		
 	// Codigos auxiliares	
+	
+	public void pegarEspecialidadePorId(int id, Usuario usuario) {
+		List<Especialidade> especialidades = new ArrayList<Especialidade>();
+		especialidades = EspecialidadeController.especialidades;
 		
+		if (especialidades.size() == 0) {
+			System.out.println("!! Não há especialidades cadastradas !!");
+		} else {
+			for (int i = 0; i < especialidades.size(); i++) {
+				especialidade = especialidades.get(i);
+				if (especialidade.getId() == id) {
+					usuario.setEspecialidade(especialidade);
+				} else {
+					System.out.println("!! Especialidade não encontrado !!");
+				}
+			}
+		}
+	}
+		
+	
 	public Especialidade preencherDadosEspecialidade() {
 		Especialidade especialidade = new Especialidade();
+		
 		System.out.println("Digite o nome da especialidade:");
 		especialidade.setNome(String.valueOf(scan.nextLine()));
+		
 		System.out.println("Digite a descrição da especialidade:");
 		especialidade.setDescricao(String.valueOf(scan.nextLine()));
+		
 		especialidade.setId(r.nextInt(100));
 			
 		return especialidade;
 	}
+	
 		
 	public void exibirDadosEspecialidade(List<Especialidade> especialidades) {
 		if (especialidades.isEmpty()) {
 			System.out.println("!! Não há departamentos cadastrados !!");
 		} else {
-			System.out.println("=====================================================================");
-			System.out.println("=========================\\ ESPECIALIDADES //=========================");
+			System.out.println("");
+			System.out.println("===============================================================");
+			System.out.println("======================\\ ESPECIALIDADES //======================");
 			System.out.println("");
 			for (Especialidade especialidade : especialidades) {
 				System.out.println("");
@@ -100,19 +134,24 @@ public class EspecialidadeController {
 				System.out.println("");
 				System.out.println("===============================================================");
 			}
+			System.out.println("===============================================================");
+			System.out.println("");
 		}
 	}
 		
+	
 	public Especialidade editarDadosEspecialidade(Especialidade especialidade) {
 		Especialidade EspecialidadeEditada = new Especialidade();
+		
 		System.out.println("Digite o nome do departamento:");
 		EspecialidadeEditada.setNome(String.valueOf(scan.nextLine()));
+		
 		System.out.println("Digite a descrição do departamento:");
 		EspecialidadeEditada.setDescricao(String.valueOf(scan.nextLine()));
+		
 		EspecialidadeEditada.setId(especialidade.getId());
 			
 		return EspecialidadeEditada;
-
 	}
 	
 }

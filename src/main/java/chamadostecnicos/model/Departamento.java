@@ -7,7 +7,6 @@ public class Departamento {
 	private String descricao;
 	
 	
-	
 	public Departamento() {
 		super();
 	}
@@ -42,6 +41,14 @@ public class Departamento {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	
+	@Override
+	public String toString() {
+		return "\n Id: " + id + 
+				"\n Nome: " + nome + 
+				"\n Descrição: " + descricao;
 	}
 	
 }

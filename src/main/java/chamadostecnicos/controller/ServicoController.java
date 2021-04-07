@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import chamadostecnicos.model.CategoriaServico;
+import chamadostecnicos.model.Chamado;
 import chamadostecnicos.model.Prioridade;
 import chamadostecnicos.model.Servico;
 
@@ -13,7 +13,7 @@ import chamadostecnicos.model.Servico;
 public class ServicoController {
 	
 	
-	List<Servico> servicos = new ArrayList<Servico>();
+	static List<Servico> servicos = new ArrayList<Servico>();
 	Servico servico;
 	Scanner scan = new Scanner(System.in);
 	Random r = new Random();
@@ -22,20 +22,26 @@ public class ServicoController {
 	// C - create
 	public void cadastrarServico() {
 		ServicoController servicoController = new ServicoController();
+		
+		Servico servico1 = new Servico(r.nextInt(100), "Servico teste", "Descrição teste", Prioridade.MEDIA);
+		servicos.add(servico1);
+		
 		servico = new Servico();
 		servico = servicoController.preencherDadosServico();
-		servico.setCategoria(selecionarCategoria(servico));
+		selecionarCategoria(servico);
 		servicos.add(servico);
 		System.out.println("!! Servico cadastrado com sucesso !!");
 		System.out.println("");
 	}
 	
+	
 	// R - read
 	public void listarServicos() {
 		List<Servico> servicos = new ArrayList<Servico>();
-		servicos = this.servicos;
+		servicos = ServicoController.servicos;
 		exibirDadosCategoria(servicos);
 	}
+	
 	
 	// U - update
 	public void atualizarDadosCategoria(int id) {
@@ -47,6 +53,7 @@ public class ServicoController {
 			if(servico.getId() == id) {
 				removerServico.add(servico);
 				servicoEditado = editarServico(servico);
+				selecionarCategoria(servicoEditado);
 			}
 		}
 		
@@ -58,6 +65,7 @@ public class ServicoController {
 			System.out.println("!! Servico editado com sucesso !!");
 		}
 	}
+	
 	
 	// D - delete
 	public void apagarServico(int id) {
@@ -79,12 +87,40 @@ public class ServicoController {
 	
 	// Codigos auxiliares
 	
+	public void selecionarCategoria(Servico servico) {
+		CategoriaServicoController controller = new CategoriaServicoController();
+		System.out.println("Digite o id da categoria a que esse servico deverá pertencer: ");
+		int id = scan.nextInt();
+		controller.pegarCategoriaPorId(id, servico);
+	}
+	
+	
+	public void pegarServicoPorId(int id, Chamado chamado) {
+		List<Servico> servicos = new ArrayList<Servico>();
+		servicos = ServicoController.servicos;
+		
+		if (servicos.size() == 0) {
+			System.out.println("!! Não há servicos cadastrados !!");
+		} else {
+			for (int i = 0; i < servicos.size(); i++) {
+				servico = servicos.get(i);
+				if (servico.getId() == id) {
+					chamado.setServico(servico);
+				} else {
+					System.out.println("!! Servico não encontrado !!");
+				}
+			}
+		}
+	}
+	
+	
 	public Servico preencherDadosServico() {
 		Servico servico = new Servico();
 		
-		System.out.println("Digite o nome do servico: ");
+		System.out.print("Digite o nome do servico: ");
 		servico.setNome(String.valueOf(scan.nextLine()));
-		System.out.println("Digite a descicao do servico");
+		
+		System.out.print("Digite a descrição do servico: ");
 		servico.setDescricao(String.valueOf(scan.nextLine()));
 		
 		boolean aux2 = false;
@@ -111,18 +147,8 @@ public class ServicoController {
 		}
 		
 		servico.setId(r.nextInt(100));
-		System.out.println(servico.getId());
 		
 		return servico;
-	}
-	
-	
-	public CategoriaServico selecionarCategoria(Servico servico) {
-		CategoriaServicoController controller = new CategoriaServicoController();
-		System.out.println("Digite o id da categoria a que esse servico deverá pertencer: ");
-		int id = scan.nextInt();
-		CategoriaServico categoria = controller.pegarCategoriaPorId(id, servico);
-		return categoria;
 	}
 	
 	
@@ -130,6 +156,7 @@ public class ServicoController {
 		if (servicos.isEmpty()) {
 			System.out.println("!! Não há servicos cadastrados !!");
 		} else {
+			System.out.println("");
 			System.out.println("===============================================================");
 			System.out.println("=========================\\ SERVICOS //=========================");
 			for (Servico servico : servicos) {
@@ -137,12 +164,13 @@ public class ServicoController {
 				System.out.println("Id: " + servico.getId());
 				System.out.println("Nome do servico: " + servico.getNome());
 				System.out.println("Descricao: " + servico.getDescricao());
-				System.out.println("Categoria: " + servico.getCategoria());
 				System.out.println("Prioridade: " + servico.getPrioridade());
+				System.out.println("Categoria: " + servico.getCategoria().toString());
 				System.out.println("");
 				System.out.println("================================================================");
 			}
 			System.out.println("================================================================");
+			System.out.println("");
 		}
 		
 	}
@@ -151,16 +179,15 @@ public class ServicoController {
 	public Servico editarServico(Servico servico) {
 		Servico servicoEditado = new Servico();
 		
-		System.out.println("Digite o nome do servico: ");
+		System.out.print("Digite o nome do servico: ");
 		servicoEditado.setNome(String.valueOf(scan.nextLine()));
-		System.out.println("Digite a descicao do servico");
-		servicoEditado.setDescricao(String.valueOf(scan.nextLine()));
 		
-		//servicoEditado.setCategoria(selecionarCategoria());
+		System.out.print("Digite a descrição do servico: ");
+		servicoEditado.setDescricao(String.valueOf(scan.nextLine()));
 		
 		boolean aux2 = false;
 		while (aux2 == false) {
-			System.out.println("Digite o nivel de prioridade deste servico: baixa, media, alta ou urgente");
+			System.out.print("Digite o nivel de prioridade deste servico (baixa, media, alta ou urgente): ");
 			String aux = scan.next();
 			if (aux.equalsIgnoreCase("baixa")) {
 				servicoEditado.setPrioridade(Prioridade.BAIXA);
