@@ -1,13 +1,14 @@
 import java.util.Scanner;
 
-import chamadostecnicos.controller.AvaliacaoController;
+import chamadostecnicos.controller.AcompanhamentoController;
 import chamadostecnicos.controller.CategoriaServicoController;
+import chamadostecnicos.controller.ChamadoController;
 import chamadostecnicos.controller.DepartamentoController;
 import chamadostecnicos.controller.EspecialidadeController;
 import chamadostecnicos.controller.ServicoController;
 import chamadostecnicos.controller.UsuarioController;
 
-
+// finalizar acompanhamento incompleto
 public class Teste {
 	
 	static Scanner scan = new Scanner(System.in);
@@ -17,17 +18,67 @@ public class Teste {
 	
 	public static void main(String[] args) {
 		
+		System.out.println("~~~~~~~~ TESTE CATEGORIA ~~~~~~~~");
+		System.out.println("");
+		
 		testarCatgoria();
+		
+		System.out.println("");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		
+		System.out.println("~~~~~~~~ TESTE SERVICO ~~~~~~~~");
+		System.out.println("");
 		
 		testarServico();
 		
+		System.out.println("");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		
+		System.out.println("~~~~~~~~ TESTE DEPARTAMENTO ~~~~~~~~");
+		System.out.println("");
+		
 		testarDepartamento();
+		
+		System.out.println("");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		
+		System.out.println("~~~~~~~~ TESTE ESPECIALIDADE ~~~~~~~~");
+		System.out.println("");
 		
 		testarEspecialidade();
 		
+		System.out.println("");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		
+		System.out.println("~~~~~~~~ TESTE USUARIO ~~~~~~~~");
+		System.out.println("");
+		
 		testarUsuario();
 		
-		testarAvalicao();
+		System.out.println("");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		
+		System.out.println("~~~~~~~~ TESTE CHAMADO ~~~~~~~~");
+		System.out.println("");
+		
+		testarChamado();
+		
+		System.out.println("");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		
+		System.out.println("~~~~~~~~ TESTE ACOMPANHAMENTO ~~~~~~~~");
+		System.out.println("");
+		
+		testarAcompanhameto();
+		
+		System.out.println("");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 	}
 	
@@ -106,9 +157,25 @@ public class Teste {
 		u.listarUsuarios();
 	}
 	
-	public static void testarAvalicao() {
-		AvaliacaoController a = new AvaliacaoController();
-		a.realizarAvaliacao();
+	
+	public static void testarChamado() {
+	    UsuarioController u = new UsuarioController();
+	    ChamadoController c = new ChamadoController();
+	    u.abrirChamado();
+	    c.listarChamado();
+	    System.out.printf("Informe o id do chamado a ser editado o status: ");
+		id = scan.nextInt();
+	    c.mudarStatusChamado(id);
+	    c.listarChamado();
+	}
+	
+	
+	// finalizar acompanhamento imcompleto
+	public static void testarAcompanhameto() {
+		AcompanhamentoController a = new AcompanhamentoController();
+		a.gerarAcompanhamento();
+		a.exibirAcompanhamento();
+		//a.finalizarAcompanhamento();
 	}
 	
 }

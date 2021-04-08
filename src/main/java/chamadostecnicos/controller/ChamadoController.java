@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import chamadostecnicos.model.Acompanhamento;
 import chamadostecnicos.model.Chamado;
 import chamadostecnicos.model.Prioridade;
 import chamadostecnicos.model.Status;
@@ -66,6 +67,19 @@ public class ChamadoController {
 		}
 	}
 	
+	public void pegarChamado(int id, Acompanhamento acompanhamento) {
+		if (chamados.size() == 0) {
+			System.out.println("");
+			System.out.println("!! Não há chamados abertos !!");
+		} else {
+			for (Chamado chamado : chamados) {
+				if (chamado.getId() == id) {
+					chamado.setStatus(Status.ANDAMENTO);
+					acompanhamento.setChamado(chamado);
+				}
+			}
+		}
+	}
 	
 	public Chamado preencherChamado() {
 		Chamado chamado = new Chamado();
@@ -78,6 +92,9 @@ public class ChamadoController {
 		chamado.setStatus(Status.ANALISE);
 		
 		chamado.setDataAbertura(LocalDate.now());
+		
+		System.out.print("Digite informe o problema: ");
+		chamado.setMensagem(String.valueOf(scan.nextLine()));
 		
 		 if (chamado.getServico().getPrioridade() == Prioridade.BAIXA) {
 			chamado.setPrazoSolucao(chamado.getDataAbertura().plusDays(30));
@@ -105,11 +122,16 @@ public class ChamadoController {
 			for (Chamado chamado : chamados) {
 				System.out.println("");
 				System.out.println("Id: " + chamado.getId());
+				System.out.println("");
 				System.out.println("Usuario: " + chamado.getUsuario().toString());
+				System.out.println("");
 				System.out.println("Servico: " + chamado.getServico().toString());
+				System.out.println("");
+				System.out.println("Problema: " + chamado.getMensagem());
 				System.out.println("Status: " + chamado.getStatus());
 				System.out.println("Data de abertura: " + chamado.getDataAbertura());
 				System.out.println("Prazo: " + chamado.getPrazoSolucao());
+				System.out.println("");
 				System.out.println("=================================================================");
 			}
 			System.out.println("=================================================================");

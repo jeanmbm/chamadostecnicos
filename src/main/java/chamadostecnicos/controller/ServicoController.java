@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import chamadostecnicos.model.Area;
 import chamadostecnicos.model.Chamado;
 import chamadostecnicos.model.Prioridade;
 import chamadostecnicos.model.Servico;
@@ -23,7 +24,7 @@ public class ServicoController {
 	public void cadastrarServico() {
 		ServicoController servicoController = new ServicoController();
 		
-		Servico servico1 = new Servico(r.nextInt(100), "Servico teste", "Descrição teste", Prioridade.MEDIA);
+		Servico servico1 = new Servico(r.nextInt(100), "Servico teste", "Descrição teste", Prioridade.MEDIA, Area.HARDWARE);
 		servicos.add(servico1);
 		
 		servico = new Servico();
@@ -58,10 +59,12 @@ public class ServicoController {
 		}
 		
 		if(removerServico.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Id do servico não localizado !!");
 		} else {
 			servicos.removeAll(removerServico);
 			servicos.add(servicoEditado);
+			System.out.println("");
 			System.out.println("!! Servico editado com sucesso !!");
 		}
 	}
@@ -77,9 +80,11 @@ public class ServicoController {
 		}
 		
 		if(removerServico.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Id do servico não localizado !!");
 		} else {
 			servicos.removeAll(removerServico);
+			System.out.println("");
 			System.out.println("!! Servico apagado com sucesso !!");
 		}
 	}
@@ -89,7 +94,7 @@ public class ServicoController {
 	
 	public void selecionarCategoria(Servico servico) {
 		CategoriaServicoController controller = new CategoriaServicoController();
-		System.out.println("Digite o id da categoria a que esse servico deverá pertencer: ");
+		System.out.print("Digite o id da categoria a que esse servico deverá pertencer: ");
 		int id = scan.nextInt();
 		controller.pegarCategoriaPorId(id, servico);
 	}
@@ -100,14 +105,13 @@ public class ServicoController {
 		servicos = ServicoController.servicos;
 		
 		if (servicos.size() == 0) {
+			System.out.println("");
 			System.out.println("!! Não há servicos cadastrados !!");
 		} else {
 			for (int i = 0; i < servicos.size(); i++) {
 				servico = servicos.get(i);
 				if (servico.getId() == id) {
 					chamado.setServico(servico);
-				} else {
-					System.out.println("!! Servico não encontrado !!");
 				}
 			}
 		}
@@ -146,6 +150,23 @@ public class ServicoController {
 			}
 		}
 		
+		boolean aux3 = false;
+		while (aux3 == false) {
+			System.out.println("Digite a área desse servico (hardware ou software): ");
+			String aux = scan.next();
+			if (aux.equalsIgnoreCase("hardware")) {
+				servico.setArea(Area.HARDWARE);
+				aux3 = true;
+			} else if (aux.equalsIgnoreCase("software")) {
+				servico.setArea(Area.SOFTWARE);
+				aux3 = true;
+			} else {
+				System.out.println("!! Área não correspondente !!");	
+				System.out.println("");
+			}
+		}
+		
+		
 		servico.setId(r.nextInt(100));
 		
 		return servico;
@@ -165,6 +186,7 @@ public class ServicoController {
 				System.out.println("Nome do servico: " + servico.getNome());
 				System.out.println("Descricao: " + servico.getDescricao());
 				System.out.println("Prioridade: " + servico.getPrioridade());
+				System.out.println("Área: " + servico.getArea());
 				System.out.println("Categoria: " + servico.getCategoria().toString());
 				System.out.println("");
 				System.out.println("================================================================");
@@ -204,6 +226,22 @@ public class ServicoController {
 			} else {
 				aux2 = false;
 				System.out.println("!! Nível de prioridade não correspondente !!");	
+				System.out.println("");
+			}
+		}
+		
+		boolean aux3 = false;
+		while (aux3 == false) {
+			System.out.println("Digite a área desse servico (hardware ou software): ");
+			String aux = scan.next();
+			if (aux.equalsIgnoreCase("hardware")) {
+				servicoEditado.setArea(Area.HARDWARE);
+				aux3 = true;
+			} else if (aux.equalsIgnoreCase("software")) {
+				servicoEditado.setArea(Area.SOFTWARE);
+				aux3 = true;
+			} else {
+				System.out.println("!! Área não correspondente !!");	
 				System.out.println("");
 			}
 		}

@@ -103,5 +103,21 @@ public class Usuario {
 	public void setEspecialidade(Especialidade especialidade) {
 		this.especialidade = especialidade;
 	}
+
+	@Override
+	public String toString() {
+		return  "\n Id: " + id + 
+				"\n Email: " + email + 
+				"\n Senha: " + senha + 
+				"\n Nome: " + nome + 
+				"\n Telefone: " + telefone + 
+				"\n CPF: " + cpf + 
+				"\n Departamento: " + departamento + 
+				"\n Tecnico: " + tecnico + 
+				"\n Especialidade: " + especialidade;
+	}
+	
+	
+	
 	
 }

@@ -8,8 +8,10 @@ public class Chamado {
 	private Usuario usuario;
 	private Servico servico;
 	private Status status;
+	private String mensagem;
 	private LocalDate dataAbertura;
 	private LocalDate prazoSolucao;
+	private LocalDate dataSolucao;
 	
 	
 	public Chamado() {
@@ -74,6 +76,22 @@ public class Chamado {
 	public void setPrazoSolucao(LocalDate prazoSolucao) {
 		this.prazoSolucao = prazoSolucao;
 	}
+	
+	public LocalDate getDataSolucao() {
+		return dataSolucao;
+	}
+
+	public void setDataSolucao(LocalDate dataSolucao) {
+		this.dataSolucao = dataSolucao;
+	}
+
+	public String getMensagem() {
+		return mensagem;
+	}
+
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
+	}
 
 	
 	@Override
@@ -81,9 +99,11 @@ public class Chamado {
 		return  "\n Id: " + id + 
 				"\n Usuario: " + usuario + 
 				"\n Servico: " + servico + 
+				"\n Mensagem: " + mensagem +
 				"\n Status: " + status + 
 				"\n Data de abertura: " + dataAbertura + 
-				"\n Prazo para solução: " + prazoSolucao;
+				"\n Prazo para solução: " + prazoSolucao +
+				"\n Data da solução: " + dataSolucao;
 	}
 
 }

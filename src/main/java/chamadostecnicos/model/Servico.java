@@ -8,6 +8,7 @@ public class Servico {
 	private String descricao;
 	private Prioridade prioridade;
 	private CategoriaServico categoria;
+	private Area area;
 	
 	
 	public Servico() {
@@ -20,13 +21,14 @@ public class Servico {
 	}
 
 
-	public Servico(int id, String nome, String descricao, Prioridade prioridade) {
+	public Servico(int id, String nome, String descricao, Prioridade prioridade, Area area) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.categoria = new CategoriaServico();;
+		this.categoria = new CategoriaServico();
 		this.descricao = descricao;
 		this.prioridade = prioridade;
+		this.area = area;
 	}
 	
 
@@ -69,6 +71,14 @@ public class Servico {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	public Area getArea() {
+		return area;
+	}
+	
+	public void setArea(Area area) {
+		this.area = area;
+	}
 
 
 	@Override
@@ -77,7 +87,8 @@ public class Servico {
 			   "\n Nome: " + nome + 
 			   "\n Descrição: " + descricao + 
 			   "\n Prioridade: " + prioridade + 
-			   "\n Categoria: " + categoria;
+			   "\n Categoria: " + categoria +
+			   "\n Area: " + area;
 	}
 
 }

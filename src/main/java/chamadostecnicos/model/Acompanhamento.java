@@ -1,16 +1,14 @@
 package chamadostecnicos.model;
 
-import java.time.LocalDate;
 
 public class Acompanhamento {
 
 	
+	private int id;
 	private Usuario tecnico;
 	private Chamado chamado;
-	private String mensagem;
 	private boolean solucionadoTecnico;
 	private boolean solucionadoUsuario;
-	private LocalDate dataSolucao;
 	private Avaliacao avaliacao;
 	
 	
@@ -18,6 +16,14 @@ public class Acompanhamento {
 		super();
 	}
 
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public Usuario getTecnico() {
 		return tecnico;
@@ -33,14 +39,6 @@ public class Acompanhamento {
 
 	public void setChamado(Chamado chamado) {
 		this.chamado = chamado;
-	}
-
-	public String getMensagem() {
-		return mensagem;
-	}
-
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
 	}
 
 	public boolean isSolucionadoTecnico() {
@@ -59,20 +57,19 @@ public class Acompanhamento {
 		this.solucionadoUsuario = solucionadoUsuario;
 	}
 
-	public LocalDate getDataSolucao() {
-		return dataSolucao;
-	}
-
-	public void setDataSolucao(LocalDate dataSolucao) {
-		this.dataSolucao = dataSolucao;
-	}
-
 	public Avaliacao getAvaliacao() {
 		return avaliacao;
 	}
 	
 	public void setAvaliacao(Avaliacao avaliacao) {
 		this.avaliacao = avaliacao;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Acompanhamento [id=" + id + ", tecnico=" + tecnico + ", chamado=" + chamado + ", solucionadoTecnico="
+				+ solucionadoTecnico + ", solucionadoUsuario=" + solucionadoUsuario + ", avaliacao=" + avaliacao + "]";
 	}
 	
 	

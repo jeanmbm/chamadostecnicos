@@ -55,10 +55,12 @@ public class DepartamentoController {
 		}
 		
 		if(removerDepartamento.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Id da categoria não localizada !!");
 		} else {
 			departamentos.removeAll(removerDepartamento);
 			departamentos.add(departamentoEditado);
+			System.out.println("");
 			System.out.println("!!Categoria editada com sucesso !!");
 		}
 	}
@@ -74,9 +76,11 @@ public class DepartamentoController {
 		}
 
 		if(removerDepartamento.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Id da categoria não localizada !!");
 		} else {
 			departamentos.removeAll(removerDepartamento);
+			System.out.println("");
 			System.out.println("!! Categoria apagada com sucesso !!");
 		}
 	}
@@ -89,14 +93,13 @@ public class DepartamentoController {
 		departamentos = DepartamentoController.departamentos;
 		
 		if (departamentos.size() == 0) {
+			System.out.println("");
 			System.out.println("!! Não há departamentos cadastrados !!");
 		} else {
 			for (int i = 0; i < departamentos.size(); i++) {
 				departamento = departamentos.get(i);
 				if (departamento.getId() == id) {
 					usuario.setDepartamento(departamento);
-				} else {
-					System.out.println("!! Departamento não encontrado !!");
 				}
 			}
 		}
@@ -106,10 +109,10 @@ public class DepartamentoController {
 	public Departamento preencherDadosDepartamento() {
 		Departamento departamento = new Departamento();
 		
-		System.out.println("Digite o nome do departamento:");
+		System.out.print("Digite o nome do departamento: ");
 		departamento.setNome(String.valueOf(scan.nextLine()));
 		
-		System.out.println("Digite a descrição do departamento:");
+		System.out.print("Digite a descrição do departamento: ");
 		departamento.setDescricao(String.valueOf(scan.nextLine()));
 		
 		departamento.setId(r.nextInt(100));
@@ -120,11 +123,12 @@ public class DepartamentoController {
 	
 	public void exibirDadosDepartamentos(List<Departamento> departamentos) {
 		if (departamentos.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Não há departamentos cadastrados !!");
-		} else {System.out.println("");
+		} else {
+			System.out.println("");
 			System.out.println("===============================================================");
 			System.out.println("======================\\ DEPARTAMENTOS //=======================");
-			System.out.println("");
 			for (Departamento departamento : departamentos) {
 				System.out.println("");
 				System.out.println("Id: " + departamento.getId());
@@ -132,8 +136,9 @@ public class DepartamentoController {
 				System.out.println("Descrição: " + departamento.getDescricao());
 				System.out.println("");
 				System.out.println("===============================================================");
-				System.out.println("");
 			}
+			System.out.println("===============================================================");
+			System.out.println("");
 		}
 	}
 	
@@ -141,10 +146,10 @@ public class DepartamentoController {
 	public Departamento editarDadosDepartamento(Departamento departamento) {
 		Departamento departamentoEditado = new Departamento();
 		
-		System.out.println("Digite o nome do departamento:");
+		System.out.print("Digite o nome do departamento: ");
 		departamentoEditado.setNome(String.valueOf(scan.nextLine()));
 		
-		System.out.println("Digite a descrição do departamento:");
+		System.out.print("Digite a descrição do departamento: ");
 		departamentoEditado.setDescricao(String.valueOf(scan.nextLine()));
 		
 		departamentoEditado.setId(departamento.getId());

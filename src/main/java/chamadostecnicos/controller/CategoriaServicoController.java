@@ -54,10 +54,12 @@ public class CategoriaServicoController {
 		}
 		
 		if(removerCategoria.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Id da categoria não localizada !!");
 		} else {
 			categorias.removeAll(removerCategoria);
 			categorias.add(categoriaEditada);
+			System.out.println("");
 			System.out.println("!! Categoria editada com sucesso !!");
 		}
 	}
@@ -72,9 +74,11 @@ public class CategoriaServicoController {
 		}
 
 		if(removerCategoria.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Id da categoria não localizada !!");
 		} else {
 			categorias.removeAll(removerCategoria);
+			System.out.println("");
 			System.out.println("!! Categoria apagada com sucesso !!");
 		}
 	}
@@ -92,9 +96,7 @@ public class CategoriaServicoController {
 				categoria = categorias.get(i);
 				if(categoria.getId() == id) {
 					servico.setCategoria(categoria);
-				} else {
-					System.out.println("!! Categoria não encontrada !!");
-				}
+				} 
 			}
 		}
 	}
@@ -117,6 +119,7 @@ public class CategoriaServicoController {
 	
 	public void exibirDadosCategoria(List<CategoriaServico> categorias) {
 		if (categorias.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Não há categorias cadastradas !!");
 		} else {
 			System.out.println("");
@@ -139,10 +142,10 @@ public class CategoriaServicoController {
 	public CategoriaServico editarCategoria(CategoriaServico categoria) {
 		CategoriaServico categoriaEditada = new CategoriaServico();
 		
-		System.out.println("Digite o nome da categoria:");
+		System.out.print("Digite o nome da categoria:");
 		categoriaEditada.setNome(String.valueOf(scan.nextLine()));
 		
-		System.out.println("Digite a descrição da categoria:");
+		System.out.print("Digite a descrição da categoria:");
 		categoriaEditada.setDescricao(String.valueOf(scan.nextLine()));
 		
 		categoriaEditada.setId(categoria.getId());

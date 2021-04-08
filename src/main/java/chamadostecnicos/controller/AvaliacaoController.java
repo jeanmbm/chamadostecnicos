@@ -14,7 +14,7 @@ public class AvaliacaoController {
 	Random r = new Random();
 	
 	
-	public void realizarAvaliacao() {
+	public Avaliacao realizarAvaliacao() {
 		Avaliacao avaliacao = new Avaliacao();
 		
 		System.out.println("Escreva um comentário, caso deseje:");
@@ -27,13 +27,8 @@ public class AvaliacaoController {
 		
 		avaliacao.setId(r.nextInt(100));
 		
-	}
-	
-	public void exibirAvaliacao(Avaliacao avaliacao) {
-		System.out.println("ID: " + avaliacao.getId());
-		System.out.println("Comentario: " + avaliacao.getComentario());
-		System.out.println("Nota: " + avaliacao.getQuantEstrelas());
-		System.out.println("Data: " + avaliacao.getDataAvalicacao());
+		return avaliacao;
+		
 	}
 	
 }

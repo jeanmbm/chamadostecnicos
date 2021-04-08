@@ -55,4 +55,15 @@ public class Avaliacao {
 		this.dataAvalicacao = dataAvalicacao;
 	}
 
+	@Override
+	public String toString() {
+		return  "\n Id: " + id + 
+				"\n Quantidade de estrelas: " + quantEstrelas + 
+				"\n Comentário: " + comentario + 
+				"\n Data da avalicação: " + dataAvalicacao;
+	}
+	
+	
+	
+
 }

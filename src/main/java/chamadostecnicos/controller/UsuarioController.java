@@ -13,6 +13,7 @@ import chamadostecnicos.model.Usuario;
 public class UsuarioController {
 
 	static List<Usuario> usuarios = new ArrayList<Usuario>();
+	static List<Usuario> tecnicos = new ArrayList<Usuario>();
 	Usuario usuario;
 	Scanner scan = new Scanner(System.in);
 	Random r = new Random(); 
@@ -24,6 +25,9 @@ public class UsuarioController {
 		usuario = new Usuario();
 		usuario = controller.preencherDadosUsuario();
 		usuarios.add(usuario);
+		if (usuario.isTecnico() == true) {
+			tecnicos.add(usuario);
+		}
 		System.out.println("");
 		System.out.println("!! Usuário cadastrado com sucesso !!");
 		System.out.println("");
@@ -45,15 +49,17 @@ public class UsuarioController {
 			usuario = usuarios.get(i);
 			if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
 				removerUsuario.add(usuario);
-				usuarioEditado = editarCategoria(usuario);
+				usuarioEditado = editarUsuario(usuario);
 			}
 		}
 		
 		if (removerUsuario.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Usuario não encontrado !!");
 		} else {
 			usuarios.removeAll(removerUsuario);
 			usuarios.add(usuarioEditado);
+			System.out.println("");
 			System.out.println("!! Usuario editado com sucesso !!");
 		}
 	}
@@ -69,23 +75,38 @@ public class UsuarioController {
 		}
 		
 		if (removerUsuario.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Usuario não encontrado !!");
 		} else {
 			usuarios.removeAll(removerUsuario);
+			System.out.println("");
 			System.out.println("!! Usuario removido com sucesso !!");
 		}
 	}
 	
 	
-	public void abrirChamado(Usuario usuario) {
+	public void abrirChamado() {
 		ChamadoController controller = new ChamadoController();
-		controller.cadastrarChamado(usuario);
+		AcompanhamentoController a = new AcompanhamentoController();
+		
+		System.out.printf("Digite o email do usuario que irá abrir o chamado: ");
+		String email = scan.next();
+		System.out.printf("Digite a senha: ");
+		String senha = scan.next();
+		
+		for (int i = 0; i < usuarios.size(); i++) {
+			usuario = usuarios.get(i);
+			if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
+				controller.cadastrarChamado(usuario);
+			}
+		}
+		
 	}
 	
 	
 	public void pegarTecnico(Acompanhamento acompanhamento) {
-		for (Usuario usuario : usuarios) {
-			if (usuario.isTecnico() == true) {
+		for (Usuario usuario : tecnicos) {
+			if (usuario.getEspecialidade().getArea() == acompanhamento.getChamado().getServico().getArea()) {
 				acompanhamento.setTecnico(usuario);
 			}
 		}
@@ -96,15 +117,15 @@ public class UsuarioController {
 	public Usuario preencherDadosUsuario() {
 		Usuario usuario = new Usuario();
 		
-		System.out.printf("Digite o nome: ");
+		System.out.printf("Digite seu nome: ");
 		usuario.setNome(String.valueOf(scan.nextLine()));
 		
-		System.out.printf("Digite o telefone: ");
+		System.out.printf("Digite seu telefone: ");
 		usuario.setTelefone(scan.nextLine());
 		
 		boolean a = false;
 		while (a == false) {
-			System.out.printf("Digite o cpf: ");
+			System.out.printf("Digite seu cpf: ");
 			String aux = scan.next(); 
 			if (isCPF(aux)) {
 				a = true;
@@ -120,7 +141,7 @@ public class UsuarioController {
 		System.out.printf("Digite a senha: ");
 		usuario.setSenha(scan.next());
 		
-		System.out.println("Digite o id do departamento ao qual pertence: ");
+		System.out.print("Digite o id do departamento ao qual pertence: ");
 		int id = scan.nextInt();
 		DepartamentoController d = new DepartamentoController();
 		d.pegarDepartamentoPorId(id, usuario);
@@ -143,7 +164,7 @@ public class UsuarioController {
 		}
 		
 		if (usuario.isTecnico() == true) {
-			System.out.println("Digite o id da especialidade ao qual pertence: ");
+			System.out.print("Digite o id da especialidade ao qual pertence: ");
 			int id2 = scan.nextInt();
 			EspecialidadeController e = new EspecialidadeController();
 			e.pegarEspecialidadePorId(id2, usuario);
@@ -172,17 +193,19 @@ public class UsuarioController {
 				System.out.println("Email: " + usuario.getEmail());
 				System.out.println("Senha: " + usuario.getSenha());
 				System.out.println("Departamento: " + usuario.getDepartamento());
+				System.out.println("É tecnico: " + usuario.isTecnico());
 				if (usuario.isTecnico() == true) {
 					System.out.println("Especialidade: " + usuario.getEspecialidade());
 				}
 				System.out.println("");
 				System.out.println("================================================================");
-				
 			}
+			System.out.println("================================================================");
+			System.out.println("");
 		}
 	}
 	
-	private Usuario editarCategoria(Usuario usuario) {
+	private Usuario editarUsuario(Usuario usuario) {
 		Usuario usuarioEditado = new Usuario();
 		
 		System.out.printf("Digite o nome: ");
@@ -197,7 +220,7 @@ public class UsuarioController {
 		System.out.printf("Digite o id do departamento ao qual pertence: ");
 		int id = scan.nextInt();
 		DepartamentoController d = new DepartamentoController();
-		d.pegarDepartamentoPorId(id, usuario);
+		d.pegarDepartamentoPorId(id, usuarioEditado);
 		
 		System.out.print("Você é um tecnico? ");
 		boolean b = false;
@@ -206,22 +229,22 @@ public class UsuarioController {
 			String aux2 = scan.next();
 			if (aux2.equalsIgnoreCase("S")) {
 				b = true;
-				usuario.setTecnico(true);
+				usuarioEditado.setTecnico(true);
 			} else if (aux2.equalsIgnoreCase("N")) {
 				b = true;
-				usuario.setTecnico(false);
+				usuarioEditado.setTecnico(false);
 			} else {
 				System.out.print("!! Iválido !!");
 			}
 		}
 		
-		if (usuario.isTecnico() == true) {
-			System.out.println("Digite o id da especialidade ao qual pertence: ");
+		if (usuarioEditado.isTecnico() == true) {
+			System.out.print("Digite o id da especialidade ao qual pertence: ");
 			int id2 = scan.nextInt();
 			EspecialidadeController e = new EspecialidadeController();
-			e.pegarEspecialidadePorId(id2, usuario);
+			e.pegarEspecialidadePorId(id2, usuarioEditado);
 		} else {
-			usuario.setEspecialidade(null);
+			usuarioEditado.setEspecialidade(null);
 		}
 		
 		usuarioEditado.setCpf(usuario.getCpf());
