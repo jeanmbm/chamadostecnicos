@@ -14,9 +14,8 @@ public class CategoriaServico {
 		this.descricao  = "";
 	}
 		
-	public CategoriaServico(int id, String nome, String descicao) {
+	public CategoriaServico(String nome, String descicao) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.descricao = descicao;
 	}
@@ -49,9 +48,9 @@ public class CategoriaServico {
 	
 	@Override
 	public String toString() {
-		return "\n Id: " + id + 
-				"\n Nome: " + nome + 
-				"\n Descrição: " + descricao;
+		return "\n  Id: " + id + 
+				"\n  Nome: " + nome + 
+				"\n  Descrição: " + descricao;
 	}
 
 }

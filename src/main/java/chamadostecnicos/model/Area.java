@@ -10,7 +10,7 @@ public enum Area {
 		this.descricao = descricao;
 	}
 	
-	public String getNivelPrioridade() {
+	public String getDescricao() {
 		return descricao;
 	}
 	

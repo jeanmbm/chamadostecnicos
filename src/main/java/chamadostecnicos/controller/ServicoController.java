@@ -1,173 +1,157 @@
 package chamadostecnicos.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 import chamadostecnicos.model.Area;
-import chamadostecnicos.model.Chamado;
 import chamadostecnicos.model.Prioridade;
 import chamadostecnicos.model.Servico;
+import chamadostecnicos.model.dao.ServicoDao;
 
 
 public class ServicoController {
 	
 	
-	static List<Servico> servicos = new ArrayList<Servico>();
 	Servico servico;
+	ServicoDao servicoDao;
 	Scanner scan = new Scanner(System.in);
-	Random r = new Random();
 	
 	
 	// C - create
 	public void cadastrarServico() {
-		ServicoController servicoController = new ServicoController();
-		
-		Servico servico1 = new Servico(r.nextInt(100), "Servico teste", "Descrição teste", Prioridade.MEDIA, Area.HARDWARE);
-		servicos.add(servico1);
-		
 		servico = new Servico();
-		servico = servicoController.preencherDadosServico();
-		selecionarCategoria(servico);
-		servicos.add(servico);
-		System.out.println("!! Servico cadastrado com sucesso !!");
-		System.out.println("");
+		servicoDao = new ServicoDao();
+	
+		servico = preencherDadosServico();
+
+		boolean salvo = servicoDao.salvarServico(servico);
+		if (salvo == true) {
+			System.out.println("");
+			System.out.println("!! Servico cadastrado com sucesso !!");
+			System.out.println("");
+		}
 	}
 	
 	
 	// R - read
 	public void listarServicos() {
-		List<Servico> servicos = new ArrayList<Servico>();
-		servicos = ServicoController.servicos;
+		List<Servico> servicos;
+		servicoDao = new ServicoDao();
+		
+		servicos = servicoDao.listarServico();
+		
 		exibirDadosCategoria(servicos);
 	}
 	
 	
 	// U - update
-	public void atualizarDadosCategoria(int id) {
-		List<Servico> removerServico = new ArrayList<Servico>();
-		Servico servicoEditado = new Servico();
+	public void editarServico(int id) {
+		Servico servicoEdit = new Servico();
 		servico = new Servico();
-		for (int i = 0; i < servicos.size(); i++) {
-			servico = servicos.get(i);
-			if(servico.getId() == id) {
-				removerServico.add(servico);
-				servicoEditado = editarServico(servico);
-				selecionarCategoria(servicoEditado);
-			}
-		}
+		servicoDao = new ServicoDao();
 		
-		if(removerServico.isEmpty()) {
+		servicoEdit = servicoDao.selecionarServicoPorId(id);
+		servico = atualizarDadosCategoria(servicoEdit);
+		
+		boolean editado = servicoDao.editarServico(servico);
+		if (editado == true) {
 			System.out.println("");
-			System.out.println("!! Id do servico não localizado !!");
-		} else {
-			servicos.removeAll(removerServico);
-			servicos.add(servicoEditado);
+			System.out.println("!! Servico editado com suscesso !!");
 			System.out.println("");
-			System.out.println("!! Servico editado com sucesso !!");
 		}
 	}
 	
 	
 	// D - delete
 	public void apagarServico(int id) {
-		List<Servico> removerServico = new ArrayList<Servico>();
-		for (Servico servico : servicos) {
-			if (servico.getId() == id) {
-				removerServico.add(servico);
-			}
-		}
+		servicoDao = new ServicoDao();
 		
-		if(removerServico.isEmpty()) {
+		boolean deletado = servicoDao.deletarServico(id);
+		if (deletado) {
 			System.out.println("");
-			System.out.println("!! Id do servico não localizado !!");
-		} else {
-			servicos.removeAll(removerServico);
+			System.out.println("!! Servico deletado com suscesso !!");
 			System.out.println("");
-			System.out.println("!! Servico apagado com sucesso !!");
 		}
 	}
 	
 	
 	// Codigos auxiliares
 	
-	public void selecionarCategoria(Servico servico) {
-		CategoriaServicoController controller = new CategoriaServicoController();
-		System.out.print("Digite o id da categoria a que esse servico deverá pertencer: ");
-		int id = scan.nextInt();
-		controller.pegarCategoriaPorId(id, servico);
-	}
-	
-	
-	public void pegarServicoPorId(int id, Chamado chamado) {
-		List<Servico> servicos = new ArrayList<Servico>();
-		servicos = ServicoController.servicos;
-		
-		if (servicos.size() == 0) {
-			System.out.println("");
-			System.out.println("!! Não há servicos cadastrados !!");
-		} else {
-			for (int i = 0; i < servicos.size(); i++) {
-				servico = servicos.get(i);
-				if (servico.getId() == id) {
-					chamado.setServico(servico);
-				}
-			}
-		}
-	}
-	
-	
 	public Servico preencherDadosServico() {
 		Servico servico = new Servico();
+		boolean aux = false;
 		
-		System.out.print("Digite o nome do servico: ");
-		servico.setNome(String.valueOf(scan.nextLine()));
+		while (aux == false) {
+			System.out.print("Digite o nome do servico: ");
+			servico.setNome(String.valueOf(scan.nextLine()));
+			
+			if (servico.getNome() == null || servico.getNome().isEmpty()) {
+				System.out.println("!! Nome não pode ser nulo ou vazio !!");
+				System.out.println("");
+				aux = false;
+			} else {
+				aux = true;
+			}
+		}
 		
 		System.out.print("Digite a descrição do servico: ");
 		servico.setDescricao(String.valueOf(scan.nextLine()));
 		
-		boolean aux2 = false;
-		while (aux2 == false) {
-			System.out.println("Digite o nivel de prioridade deste servico: baixa, media, alta ou urgente");
-			String aux = scan.next();
-			if (aux.equalsIgnoreCase("baixa")) {
+		aux = false;
+		while (aux == false) {
+			System.out.print("Digite o nivel de prioridade deste servico (baixa, media, alta ou urgente): ");
+			String prioridade = scan.next();
+			if (prioridade.equalsIgnoreCase("baixa")) {
 				servico.setPrioridade(Prioridade.BAIXA);
-				aux2 = true;
-			} else if (aux.equalsIgnoreCase("media")) {
+				aux = true;
+			} else if (prioridade.equalsIgnoreCase("media")) {
 				servico.setPrioridade(Prioridade.MEDIA);
-				aux2 = true;
-			} else if (aux.equalsIgnoreCase("alta")) {
+				aux = true;
+			} else if (prioridade.equalsIgnoreCase("alta")) {
 				servico.setPrioridade(Prioridade.ALTA);
-				aux2 = true;
-			} else if (aux.equalsIgnoreCase("urgente")) {
+				aux = true;
+			} else if (prioridade.equalsIgnoreCase("urgente")) {
 				servico.setPrioridade(Prioridade.URGENTE);
-				aux2 = true;
+				aux = true;
 			} else {
-				aux2 = false;
+				aux = false;
 				System.out.println("!! Nível de prioridade não correspondente !!");	
 				System.out.println("");
 			}
 		}
 		
-		boolean aux3 = false;
-		while (aux3 == false) {
-			System.out.println("Digite a área desse servico (hardware ou software): ");
-			String aux = scan.next();
-			if (aux.equalsIgnoreCase("hardware")) {
+		aux = false;
+		while (aux == false) {
+			System.out.print("Digite a área desse servico (hardware ou software): ");
+			String area = scan.next();
+			if (area.equalsIgnoreCase("hardware")) {
 				servico.setArea(Area.HARDWARE);
-				aux3 = true;
-			} else if (aux.equalsIgnoreCase("software")) {
+				aux = true;
+			} else if (area.equalsIgnoreCase("software")) {
 				servico.setArea(Area.SOFTWARE);
-				aux3 = true;
+				aux = true;
 			} else {
 				System.out.println("!! Área não correspondente !!");	
 				System.out.println("");
 			}
 		}
 		
+		aux = false;
+		while (aux == false) {
+			System.out.print("Digite o id da categoria a que esse servico deverá pertencer: ");
+			servico.setIdCategoria(scan.nextInt());
+			
+			if (servico.getIdCategoria() == 0) {
+				System.out.println("!! Id da categoria não pode ser nulo ou vazio !!");
+				System.out.println("");
+				aux = false;
+			} else {
+				aux = true;
+			}
+		}
 		
-		servico.setId(r.nextInt(100));
+		
+		
 		
 		return servico;
 	}
@@ -185,8 +169,8 @@ public class ServicoController {
 				System.out.println("Id: " + servico.getId());
 				System.out.println("Nome do servico: " + servico.getNome());
 				System.out.println("Descricao: " + servico.getDescricao());
-				System.out.println("Prioridade: " + servico.getPrioridade());
-				System.out.println("Área: " + servico.getArea());
+				System.out.println("Prioridade: " + servico.getPrioridade().getDescricao());
+				System.out.println("Área: " + servico.getArea().getDescricao());
 				System.out.println("Categoria: " + servico.getCategoria().toString());
 				System.out.println("");
 				System.out.println("================================================================");
@@ -198,49 +182,61 @@ public class ServicoController {
 	}
 	
 	
-	public Servico editarServico(Servico servico) {
+	public Servico atualizarDadosCategoria(Servico servico) {
 		Servico servicoEditado = new Servico();
+		boolean aux = false;
 		
-		System.out.print("Digite o nome do servico: ");
-		servicoEditado.setNome(String.valueOf(scan.nextLine()));
+		while (aux == false) {
+			System.out.print("Digite o nome do servico: ");
+			servicoEditado.setNome(String.valueOf(scan.nextLine()));
+			
+			if (servicoEditado.getNome() == null || servicoEditado.getNome().isEmpty()) {
+				System.out.println("!! Nome não pode ser nulo ou vazio !!");
+				System.out.println("");
+				aux = false;
+			} else {
+				aux = true;
+			}
+		}
 		
 		System.out.print("Digite a descrição do servico: ");
 		servicoEditado.setDescricao(String.valueOf(scan.nextLine()));
 		
-		boolean aux2 = false;
-		while (aux2 == false) {
+		aux = false;
+		while (aux == false) {
 			System.out.print("Digite o nivel de prioridade deste servico (baixa, media, alta ou urgente): ");
-			String aux = scan.next();
-			if (aux.equalsIgnoreCase("baixa")) {
+			String prioridade = scan.next();
+			if (prioridade.equalsIgnoreCase("baixa")) {
 				servicoEditado.setPrioridade(Prioridade.BAIXA);
-				aux2 = true;
-			} else if (aux.equalsIgnoreCase("media")) {
+				aux = true;
+			} else if (prioridade.equalsIgnoreCase("media")) {
 				servicoEditado.setPrioridade(Prioridade.MEDIA);
-				aux2 = true;
-			} else if (aux.equalsIgnoreCase("alta")) {
+				aux = true;
+			} else if (prioridade.equalsIgnoreCase("alta")) {
 				servicoEditado.setPrioridade(Prioridade.ALTA);
-				aux2 = true;
-			} else if (aux.equalsIgnoreCase("urgente")) {
+				aux = true;
+			} else if (prioridade.equalsIgnoreCase("urgente")) {
 				servicoEditado.setPrioridade(Prioridade.URGENTE);
-				aux2 = true;
+				aux = true;
 			} else {
-				aux2 = false;
+				aux = false;
 				System.out.println("!! Nível de prioridade não correspondente !!");	
 				System.out.println("");
 			}
 		}
 		
-		boolean aux3 = false;
-		while (aux3 == false) {
-			System.out.println("Digite a área desse servico (hardware ou software): ");
-			String aux = scan.next();
-			if (aux.equalsIgnoreCase("hardware")) {
+		aux = false;
+		while (aux == false) {
+			System.out.print("Digite a área desse servico (hardware ou software): ");
+			String area = scan.next();
+			if (area.equalsIgnoreCase("hardware")) {
 				servicoEditado.setArea(Area.HARDWARE);
-				aux3 = true;
-			} else if (aux.equalsIgnoreCase("software")) {
+				aux = true;
+			} else if (area.equalsIgnoreCase("software")) {
 				servicoEditado.setArea(Area.SOFTWARE);
-				aux3 = true;
+				aux = true;
 			} else {
+				aux = false;
 				System.out.println("!! Área não correspondente !!");	
 				System.out.println("");
 			}

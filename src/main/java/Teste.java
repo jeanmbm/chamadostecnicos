@@ -8,7 +8,6 @@ import chamadostecnicos.controller.EspecialidadeController;
 import chamadostecnicos.controller.ServicoController;
 import chamadostecnicos.controller.UsuarioController;
 
-// finalizar acompanhamento incompleto
 public class Teste {
 	
 	static Scanner scan = new Scanner(System.in);
@@ -18,67 +17,10 @@ public class Teste {
 	
 	public static void main(String[] args) {
 		
-		System.out.println("~~~~~~~~ TESTE CATEGORIA ~~~~~~~~");
-		System.out.println("");
-		
-		testarCatgoria();
-		
-		System.out.println("");
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
-		
-		System.out.println("~~~~~~~~ TESTE SERVICO ~~~~~~~~");
-		System.out.println("");
-		
+		//testarCatgoria();
 		testarServico();
-		
-		System.out.println("");
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
-		
-		System.out.println("~~~~~~~~ TESTE DEPARTAMENTO ~~~~~~~~");
-		System.out.println("");
-		
-		testarDepartamento();
-		
-		System.out.println("");
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
-		
-		System.out.println("~~~~~~~~ TESTE ESPECIALIDADE ~~~~~~~~");
-		System.out.println("");
-		
-		testarEspecialidade();
-		
-		System.out.println("");
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
-		
-		System.out.println("~~~~~~~~ TESTE USUARIO ~~~~~~~~");
-		System.out.println("");
-		
-		testarUsuario();
-		
-		System.out.println("");
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
-		
-		System.out.println("~~~~~~~~ TESTE CHAMADO ~~~~~~~~");
-		System.out.println("");
-		
-		testarChamado();
-		
-		System.out.println("");
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
-		
-		System.out.println("~~~~~~~~ TESTE ACOMPANHAMENTO ~~~~~~~~");
-		System.out.println("");
-		
-		testarAcompanhameto();
-		
-		System.out.println("");
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		//testarDepartamento();
+		//testarEspecialidade();
 		
 	}
 	
@@ -89,11 +31,13 @@ public class Teste {
 		csc.listarCategorias();
 		System.out.printf("Informe o id da categoria a ser editada: ");
 		id = scan.nextInt();
-		csc.atualizarDadosCategoria(id);
+		csc.editarCategoria(id);
 		csc.listarCategorias();
 		System.out.printf("Informe o id da categoria a ser apagada: ");
 		id = scan.nextInt();
 		csc.apagarCategoria(id);
+		csc.listarCategorias();
+		csc.cadastrarCategoria();
 		csc.listarCategorias();
 	}
 	
@@ -103,7 +47,7 @@ public class Teste {
 		sc.listarServicos();
 		System.out.printf("Informe o id do servico a ser editado: ");
 		id = scan.nextInt();
-		sc.atualizarDadosCategoria(id);
+		sc.editarServico(id);
 		sc.listarServicos();
 		System.out.printf("Informe o id do servico a ser removido: ");
 		id = scan.nextInt();
@@ -117,7 +61,7 @@ public class Teste {
 		d.listarDepartamentos();
 		System.out.printf("Informe o id da departamento a ser editada: ");
 		id = scan.nextInt();
-		d.atualizarDepartamento(id);
+		d.editarDepartamento(id);
 		d.listarDepartamentos();
 		System.out.printf("Informe o id da departamento a ser apagada: ");
 		id = scan.nextInt();
@@ -131,7 +75,7 @@ public class Teste {
 		e.listarEspecialidades();
 		System.out.printf("Informe o id da especialidade a ser editada: ");
 		id = scan.nextInt();
-		e.atualizarEspecialidade(id);
+		e.editarEspecialidade(id);
 		e.listarEspecialidades();
 		System.out.printf("Informe o id da especialidade a ser apagada: ");
 		id = scan.nextInt();
@@ -179,3 +123,70 @@ public class Teste {
 	}
 	
 }
+
+
+
+
+
+
+//System.out.println("~~~~~~~~ TESTE CATEGORIA ~~~~~~~~");
+//System.out.println("");
+//
+//testarCatgoria();
+//
+//System.out.println("");
+//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//
+//
+//System.out.println("~~~~~~~~ TESTE SERVICO ~~~~~~~~");
+//System.out.println("");
+//
+//testarServico();
+//
+//System.out.println("");
+//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//
+//
+//System.out.println("~~~~~~~~ TESTE DEPARTAMENTO ~~~~~~~~");
+//System.out.println("");
+//
+//testarDepartamento();
+//
+//System.out.println("");
+//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//
+//
+//System.out.println("~~~~~~~~ TESTE ESPECIALIDADE ~~~~~~~~");
+//System.out.println("");
+//
+//testarEspecialidade();
+//
+//System.out.println("");
+//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//
+//
+//System.out.println("~~~~~~~~ TESTE USUARIO ~~~~~~~~");
+//System.out.println("");
+//
+//testarUsuario();
+//
+//System.out.println("");
+//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//
+//
+//System.out.println("~~~~~~~~ TESTE CHAMADO ~~~~~~~~");
+//System.out.println("");
+//
+//testarChamado();
+//
+//System.out.println("");
+//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//
+//
+//System.out.println("~~~~~~~~ TESTE ACOMPANHAMENTO ~~~~~~~~");
+//System.out.println("");
+//
+//testarAcompanhameto();
+//
+//System.out.println("");
+//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

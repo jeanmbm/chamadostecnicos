@@ -7,31 +7,20 @@ public class Servico {
 	private String nome;
 	private String descricao;
 	private Prioridade prioridade;
+	private int idCategoria;
 	private CategoriaServico categoria;
 	private Area area;
 	
 	
 	public Servico() {
-		super();
 		id = 0;
 		nome = "";
 		descricao = "";
 		prioridade = Prioridade.VAZIO;
 		categoria = new CategoriaServico();
 	}
-
-
-	public Servico(int id, String nome, String descricao, Prioridade prioridade, Area area) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.categoria = new CategoriaServico();
-		this.descricao = descricao;
-		this.prioridade = prioridade;
-		this.area = area;
-	}
 	
-
+	
 	public int getId() {
 		return id;
 	}
@@ -78,6 +67,14 @@ public class Servico {
 	
 	public void setArea(Area area) {
 		this.area = area;
+	}
+	
+	public int getIdCategoria() {
+		return idCategoria;
+	}
+	
+	public void setIdCategoria(int idCategoria) {
+		this.idCategoria = idCategoria;
 	}
 
 

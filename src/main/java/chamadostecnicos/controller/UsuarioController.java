@@ -144,7 +144,7 @@ public class UsuarioController {
 		System.out.print("Digite o id do departamento ao qual pertence: ");
 		int id = scan.nextInt();
 		DepartamentoController d = new DepartamentoController();
-		d.pegarDepartamentoPorId(id, usuario);
+		//d.pegarDepartamentoPorId(id, usuario);
 		
 		System.out.println("Você é um tecnico?");
 		
@@ -220,7 +220,7 @@ public class UsuarioController {
 		System.out.printf("Digite o id do departamento ao qual pertence: ");
 		int id = scan.nextInt();
 		DepartamentoController d = new DepartamentoController();
-		d.pegarDepartamentoPorId(id, usuarioEditado);
+		//d.pegarDepartamentoPorId(id, usuarioEditado);
 		
 		System.out.print("Você é um tecnico? ");
 		boolean b = false;

@@ -1,129 +1,125 @@
 package chamadostecnicos.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 import chamadostecnicos.model.Area;
 import chamadostecnicos.model.Especialidade;
-import chamadostecnicos.model.Usuario;
+import chamadostecnicos.model.dao.EspecialidadeDao;
+
 
 public class EspecialidadeController {
 	
 
-	static List<Especialidade> especialidades = new ArrayList<Especialidade>();
 	Especialidade especialidade;
+	EspecialidadeDao especialidadeDao;
 	Scanner scan = new Scanner(System.in);
-	Random r = new Random();
 	
 	
 	// C - create
 	public void cadastrarEspecialidade() {
 		EspecialidadeController controller = new EspecialidadeController();
-		
-		Especialidade especialidade1 = new Especialidade(r.nextInt(100), "Especialidade teste", "Descrição teste", Area.HARDWARE);
-		especialidades.add(especialidade1);
-		
+		especialidadeDao = new EspecialidadeDao();
 		especialidade = new Especialidade();
+		
 		especialidade = controller.preencherDadosEspecialidade();
-		especialidades.add(especialidade);
-		System.out.println("");
-		System.out.println("!! Especialidade cadastrada com sucesso!!");
-		System.out.println("");
+		boolean salvo = especialidadeDao.salvarEspecialidade(especialidade);
+		if (salvo) {
+			System.out.println("");
+			System.out.println("!! Especialidade cadastrada com sucesso!!");
+			System.out.println("");
+		}
 	}
 		
 	
 	// R - read
 	public void listarEspecialidades() {
-		List<Especialidade> especialidades = new ArrayList<Especialidade>();
-		especialidades = EspecialidadeController.especialidades;
+		List<Especialidade> especialidades;
+		especialidadeDao = new EspecialidadeDao();
+		especialidades = especialidadeDao.listarEspecialidades();
 		exibirDadosEspecialidade(especialidades);
 	}
 		
 	
 	// U - update
-	public void atualizarEspecialidade(int id) {
-		List<Especialidade> removerEspecialidade = new ArrayList<Especialidade>();
-		Especialidade especialidadeEditada = new Especialidade();
+	public void editarEspecialidade(int id) {
+		Especialidade especialidadeEdit = new Especialidade();
 		especialidade = new Especialidade();
-		for (int i = 0; i < especialidades.size(); i++) {
-			especialidade = especialidades.get(i);
-			if(especialidade.getId() == id) {
-				removerEspecialidade.add(especialidade);
-				especialidadeEditada = editarDadosEspecialidade(especialidade);
-			}
-		}
-				
-		if(removerEspecialidade.isEmpty()) {
+		especialidadeDao = new EspecialidadeDao();
+		
+		especialidadeEdit = especialidadeDao.selecionarEspecialidadePorId(id);
+		especialidade = atualizarDadosEspecialidade(especialidadeEdit);
+		
+		boolean aux = especialidadeDao.editarEspecialidade(especialidade);
+		if (aux == true) {
 			System.out.println("");
-			System.out.println("!! Id da especialidade não localizado !!");
-		} else {
-			especialidades.removeAll(removerEspecialidade);
-			especialidades.add(especialidadeEditada);
+			System.out.println("!! Especialidade editada com suscesso !!");
 			System.out.println("");
-			System.out.println("!! Especialidade editada com sucesso !!");
 		}
 	}
 			
 	
 	// D - delete
 	public void apagarEspecialidades (int id) {
-		List<Especialidade> removerEspecialidade = new ArrayList<Especialidade>();
-		for (Especialidade especialidade : especialidades) {
-			if(especialidade.getId() == id) {
-				removerEspecialidade.add(especialidade);	
-			}
-		}
-
-		if(removerEspecialidade.isEmpty()) {
+		especialidadeDao = new EspecialidadeDao();
+		boolean aux = especialidadeDao.deletarEspecialidade(id);
+		if (aux == true) {
 			System.out.println("");
-			System.out.println("!! Id da especialidade não localizado !!");
-		} else {
-			especialidades.removeAll(removerEspecialidade);
+			System.out.println("!! Especialidade apagada com suscesso !!");
 			System.out.println("");
-			System.out.println("!! Especialidade apagada com sucesso !!");
 		}
 	}
 		
 		
 	// Codigos auxiliares	
 	
-	public void pegarEspecialidadePorId(int id, Usuario usuario) {
-		List<Especialidade> especialidades = new ArrayList<Especialidade>();
-		especialidades = EspecialidadeController.especialidades;
-		
-		if (especialidades.size() == 0) {
-			System.out.println("");
-			System.out.println("!! Não há especialidades cadastradas !!");
-		} else {
-			for (int i = 0; i < especialidades.size(); i++) {
-				especialidade = especialidades.get(i);
-				if (especialidade.getId() == id) {
-					usuario.setEspecialidade(especialidade);
-				} 
-			}
-		}
-	}
+//	public void pegarEspecialidadePorId(int id, Usuario usuario) {
+//		List<Especialidade> especialidades = new ArrayList<Especialidade>();
+//		especialidades = EspecialidadeController.especialidades;
+//		
+//		if (especialidades.size() == 0) {
+//			System.out.println("");
+//			System.out.println("!! Não há especialidades cadastradas !!");
+//		} else {
+//			for (int i = 0; i < especialidades.size(); i++) {
+//				especialidade = especialidades.get(i);
+//				if (especialidade.getId() == id) {
+//					usuario.setEspecialidade(especialidade);
+//				} 
+//			}
+//		}
+//	}
 		
 	
 	public Especialidade preencherDadosEspecialidade() {
 		Especialidade especialidade = new Especialidade();
+		boolean aux = false;
 		
-		System.out.print("Digite o nome da especialidade: ");
-		especialidade.setNome(String.valueOf(scan.nextLine()));
+		while (aux == false) {
+			System.out.print("Digite o nome da especialidade: ");
+			especialidade.setNome(String.valueOf(scan.nextLine()));
+			
+			if (especialidade.getNome() == null || especialidade.getNome().equals("")) {
+				System.out.println("!! Nome não pode ser nulo ou vazio !!");
+				System.out.println("");
+				aux = false;
+			} else {
+				aux = true;
+			}
+		}
 		
 		System.out.print("Digite a descrição da especialidade: ");
 		especialidade.setDescricao(String.valueOf(scan.nextLine()));
 		
-		boolean aux = false;
+		
+		aux = false;
 		while (aux == false) {
-			System.out.println("Digite a área desse servico (hardware ou software): ");
-			String aux2 = scan.next();
-			if (aux2.equalsIgnoreCase("hardware")) {
+			System.out.printf("Digite a área dessa especialidade (hardware ou software): ");
+			String area = scan.next();
+			if (area.equalsIgnoreCase("hardware")) {
 				especialidade.setArea(Area.HARDWARE);
 				aux = true;
-			} else if (aux2.equalsIgnoreCase("software")) {
+			} else if (area.equalsIgnoreCase("software")) {
 				especialidade.setArea(Area.SOFTWARE);
 				aux = true;
 			} else {
@@ -131,8 +127,6 @@ public class EspecialidadeController {
 				System.out.println("");
 			}
 		}
-		
-		especialidade.setId(r.nextInt(100));
 			
 		return especialidade;
 	}
@@ -141,7 +135,7 @@ public class EspecialidadeController {
 	public void exibirDadosEspecialidade(List<Especialidade> especialidades) {
 		if (especialidades.isEmpty()) {
 			System.out.println("");
-			System.out.println("!! Não há departamentos cadastrados !!");
+			System.out.println("!! Não há especialidades cadastrados !!");
 		} else {
 			System.out.println("");
 			System.out.println("===============================================================");
@@ -151,7 +145,7 @@ public class EspecialidadeController {
 				System.out.println("Id: " + especialidade.getId());
 				System.out.println("Nome: " + especialidade.getNome());
 				System.out.println("Descrição: " + especialidade.getDescricao());
-				System.out.println("Área: " + especialidade.getArea());
+				System.out.println("Área: " + especialidade.getArea().getDescricao());
 				System.out.println("");
 				System.out.println("===============================================================");
 			}
@@ -161,23 +155,34 @@ public class EspecialidadeController {
 	}
 		
 	
-	public Especialidade editarDadosEspecialidade(Especialidade especialidade) {
+	public Especialidade atualizarDadosEspecialidade(Especialidade especialidade) {
 		Especialidade EspecialidadeEditada = new Especialidade();
-		
-		System.out.println("Digite o nome da especialidade:");
-		EspecialidadeEditada.setNome(String.valueOf(scan.nextLine()));
-		
-		System.out.println("Digite a descrição da especialidade:");
-		EspecialidadeEditada.setDescricao(String.valueOf(scan.nextLine()));
-		
 		boolean aux = false;
+		
 		while (aux == false) {
-			System.out.println("Digite a área desse servico (hardware ou software): ");
-			String aux2 = scan.next();
-			if (aux2.equalsIgnoreCase("hardware")) {
+			System.out.print("Digite o nome da especialidade: ");
+			EspecialidadeEditada.setNome(String.valueOf(scan.nextLine()));
+			
+			if (EspecialidadeEditada.getNome() == null || EspecialidadeEditada.getNome().equals("")) {
+				System.out.println("!! Nome não pode ser nulo ou vazio !!");
+				System.out.println("");
+				aux = false;
+			} else {
+				aux = true;
+			}
+		}
+
+		System.out.print("Digite a descrição da especialidade: ");
+		EspecialidadeEditada.setDescricao(String.valueOf(scan.nextLine()));
+
+		aux = false;
+		while (aux == false) {
+			System.out.print("Digite a área desse servico (hardware ou software): ");
+			String area = scan.next();
+			if (area.equalsIgnoreCase("hardware")) {
 				EspecialidadeEditada.setArea(Area.HARDWARE);
 				aux = true;
-			} else if (aux2.equalsIgnoreCase("software")) {
+			} else if (area.equalsIgnoreCase("software")) {
 				EspecialidadeEditada.setArea(Area.SOFTWARE);
 				aux = true;
 			} else {
