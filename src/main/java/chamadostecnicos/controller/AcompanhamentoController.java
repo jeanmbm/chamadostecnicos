@@ -3,7 +3,6 @@ package chamadostecnicos.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 import chamadostecnicos.model.Acompanhamento;
@@ -12,81 +11,114 @@ import chamadostecnicos.model.Avaliacao;
 import chamadostecnicos.model.Chamado;
 import chamadostecnicos.model.Status;
 import chamadostecnicos.model.Usuario;
+import chamadostecnicos.model.dao.AcompanhamentoDao;
+import chamadostecnicos.model.dao.ChamadoDao;
+import chamadostecnicos.model.dao.UsuarioDao;
 
 
 public class AcompanhamentoController {
 	
-	static List<Acompanhamento> acompanhamentos = new ArrayList<Acompanhamento>();
 	Acompanhamento acompanhamento;
 	Avaliacao avaliacao;
+	ChamadoDao chamadoDao;
+	UsuarioDao usuarioDao;
+	Usuario usuario;
+	Chamado chamado;
+	AcompanhamentoDao acompanhamentoDao;
 	Scanner scan = new Scanner(System.in);
-	Random r = new Random();
 
 	
-	public void gerarAcompanhamento() {
-		AcompanhamentoController controller = new AcompanhamentoController();
-		acompanhamento = new Acompanhamento();
-		controller.pegarChamado(acompanhamento);
-		controller.pegarTecnico(acompanhamento);
-		acompanhamento.setId(r.nextInt(100));
-		acompanhamentos.add(acompanhamento);
-	}
-
-	public void pegarChamado(Acompanhamento acompanhamento) {
-		ChamadoController c = new ChamadoController();
-		System.out.println("Digite o id do chamado para abrir um acompanhamento: ");
-		int id = scan.nextInt();
-		c.pegarChamado(id, acompanhamento);
-	}
-	
-	public void pegarTecnico(Acompanhamento acompanhamento) {
-		UsuarioController u = new UsuarioController();
-		u.pegarTecnico(acompanhamento);
-	}
-	
-	
-	public void finalizarAcompanhamentoUsuario(Acompanhamento acompanhamento) {
-		System.out.println("Usuario, deseja finalizar o acompanhamento? (S ou N)");
-		String aux = scan.next();
-		if (aux.equalsIgnoreCase("S")) {
-			acompanhamento.setSolucionadoUsuario(true);
+	public boolean gerarAcompanhamento(int id) {
+		chamadoDao = new ChamadoDao();
+		usuarioDao = new UsuarioDao();
+		acompanhamentoDao = new AcompanhamentoDao();
+		usuario = new Usuario();
+		chamado = new Chamado();
+		boolean gerado = false;
+		
+		if (id > 0) {
+			chamadoDao = new ChamadoDao(); 
+			
+			chamado = chamadoDao.selecionarChamadoPorId(id);
+			
+			if (chamado == null) {
+				System.out.println("");
+				System.err.println("!! Chamado não encontrado !!");
+				System.out.println("");
+				
+			} else {
+				String area = chamado.getServico().getArea().getDescricao();
+				usuario = usuarioDao.selecioanarUsuarioTecnico(area);
+//				gerado = acompanhamentoDao.salvarAcompanhamento(chamado.getId(), usuario.getId());
+				gerado = acompanhamentoDao.salvarAcompanhamento(2, 1);
+			}
+			
 		} else {
-			acompanhamento.setSolucionadoUsuario(false);
+			System.out.println("");
+			System.err.println("!! Id não pode ser menor ou igual a 0 !!");
+			System.out.println("");
 		}
+		
+		return gerado;
+		
 	}
 	
 	
-	public void finalizarAcompanhamentoTecnico(Acompanhamento acompanhamento) {
-		System.out.println("Técnico, deseja finalizar o acompanhamento? (S ou N)");
-		String aux2 = scan.next();
-		if (aux2.equalsIgnoreCase("S")) {
-			acompanhamento.setSolucionadoTecnico(true);
+	public boolean finalizarAcompanhamentoUsuario(int id) {
+		acompanhamentoDao = new AcompanhamentoDao();
+		boolean finalizado = false;
+		
+		if (id > 0) {
+			finalizado = acompanhamentoDao.finalizarAcompanhamentoUsuario(id);
 		} else {
-			acompanhamento.setSolucionadoTecnico(false);
+			System.out.println("");
+			System.err.println("!! Id não pode ser menor ou igual a 0 !!");
+			System.out.println("");
 		}
+		
+		return finalizado;	
 	}
+	
+	public boolean finalizarAcompanhamentoTecnico(int id) {
+		acompanhamentoDao = new AcompanhamentoDao();
+		boolean finalizado = false;
+		
+		if (id > 0) {
+			finalizado = acompanhamentoDao.finalizarAcompanhamentoTecnico(id);
+		} else {
+			System.out.println("");
+			System.err.println("!! Id não pode ser menor ou igual a 0 !!");
+			System.out.println("");
+		}
+		
+		return finalizado;
+	}
+	
 	
 	public void exibirAcompanhamento() {
-		for (Acompanhamento acompanhamento : acompanhamentos) {
-			System.out.println(acompanhamento.toString());
-		}
+//		for (Acompanhamento acompanhamento : acompanhamentos) {
+//			System.out.println(acompanhamento.toString());
+//		}
 	}
 	
 	
-	public void finalizarAcompanhamento(Chamado chamado, Acompanhamento acompanhamento) {
-		ChamadoController c = new ChamadoController();
-		AvaliacaoController a = new AvaliacaoController();
-		avaliacao = new Avaliacao();
-		
-		System.out.println("Digite o id do acompanhamento");
-		
-		if (acompanhamento.isSolucionadoUsuario() == true && acompanhamento.isSolucionadoTecnico() == true) {
-			chamado.setStatus(Status.CONCLUIDO);
-			chamado.setPrazoSolucao(LocalDate.now());
-			acompanhamento.setAvaliacao(avaliacao = a.realizarAvaliacao()); 
-		} else {
-			System.out.println("Um dos usuarios não finalizou o acompanhamento");
-		}
-	}
+//	public void finalizarAcompanhamento(int id) {
+//		ChamadoController c = new ChamadoController();
+//		AvaliacaoController avaliacaoController = new AvaliacaoController();
+//		avaliacao = new Avaliacao();
+//		acompanhamentoDao = new AcompanhamentoDao();
+//		
+//		System.out.println("Digite o id do acompanhamento: ");
+//		
+//		if (acompanhamento.isSolucionadoUsuario() == true && acompanhamento.isSolucionadoTecnico() == true) {
+//			chamado.setStatus(Status.CONCLUIDO);
+//			chamado.setPrazoSolucao(LocalDate.now());
+//			
+//			avaliacao = avaliacaoController.realizarAvaliacao(); 
+//			acompanhamentoDao.finalizarAcompanhamento(avaliacao);
+//		} else {
+//			System.out.println("Um dos usuarios não finalizou o acompanhamento");
+//		}
+//	}
 	
 }

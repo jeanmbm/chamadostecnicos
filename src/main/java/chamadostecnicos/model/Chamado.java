@@ -5,7 +5,9 @@ import java.time.LocalDate;
 public class Chamado {
 	
 	private int id;
+	private int idUsuario;
 	private Usuario usuario;
+	private int IdServico;
 	private Servico servico;
 	private Status status;
 	private String mensagem;
@@ -17,17 +19,7 @@ public class Chamado {
 	public Chamado() {
 		super();
 	}
-
-	public Chamado(int id, Usuario usuario, Servico servico, Status status, LocalDate dataAbertura,
-			LocalDate prazoSolucao) {
-		super();
-		this.id = id;
-		this.usuario = usuario;
-		this.servico = servico;
-		this.status = status;
-		this.dataAbertura = dataAbertura;
-		this.prazoSolucao = prazoSolucao;
-	}
+	
 
 	public int getId() {
 		return id;
@@ -92,18 +84,34 @@ public class Chamado {
 	public void setMensagem(String mensagem) {
 		this.mensagem = mensagem;
 	}
-
 	
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public int getIdServico() {
+		return IdServico;
+	}
+
+	public void setIdServico(int idServico) {
+		IdServico = idServico;
+	}
+
+
 	@Override
 	public String toString() {
-		return  "\n Id: " + id + 
-				"\n Usuario: " + usuario + 
-				"\n Servico: " + servico + 
-				"\n Mensagem: " + mensagem +
-				"\n Status: " + status + 
-				"\n Data de abertura: " + dataAbertura + 
-				"\n Prazo para solução: " + prazoSolucao +
-				"\n Data da solução: " + dataSolucao;
+		return  "\n   Id: " + id + 
+				"\n   Usuario: " + usuario + 
+				"\n   Servico: " + servico + 
+				"\n   Mensagem: " + mensagem +
+				"\n   Status: " + status + 
+				"\n   Data de abertura: " + dataAbertura + 
+				"\n   Prazo para solução: " + prazoSolucao +
+				"\n   Data da solução: " + dataSolucao;
 	}
 
 }

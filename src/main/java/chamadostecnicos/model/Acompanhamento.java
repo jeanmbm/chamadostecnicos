@@ -2,13 +2,16 @@ package chamadostecnicos.model;
 
 
 public class Acompanhamento {
-
+	
 	
 	private int id;
+	private int idTecnico;
 	private Usuario tecnico;
+	private int idChamado;
 	private Chamado chamado;
 	private boolean solucionadoTecnico;
 	private boolean solucionadoUsuario;
+	private int idAvaliacao;
 	private Avaliacao avaliacao;
 	
 	
@@ -65,14 +68,35 @@ public class Acompanhamento {
 		this.avaliacao = avaliacao;
 	}
 
+	public int getIdTecnico() {
+		return idTecnico;
+	}
+
+	public void setIdTecnico(int idTecnico) {
+		this.idTecnico = idTecnico;
+	}
+
+	public int getIdChamado() {
+		return idChamado;
+	}
+
+	public void setIdChamado(int idChamado) {
+		this.idChamado = idChamado;
+	}
+
+	public int getIdAvaliacao() {
+		return idAvaliacao;
+	}
+
+	public void setIdAvaliacao(int idAvaliacao) {
+		this.idAvaliacao = idAvaliacao;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Acompanhamento [id=" + id + ", tecnico=" + tecnico + ", chamado=" + chamado + ", solucionadoTecnico="
 				+ solucionadoTecnico + ", solucionadoUsuario=" + solucionadoUsuario + ", avaliacao=" + avaliacao + "]";
 	}
-	
-	
-	
 	
 }

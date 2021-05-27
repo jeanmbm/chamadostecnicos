@@ -34,6 +34,7 @@ public class ServicoDao {
 		try {
 			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(query);
+			
 			preparedStatement.setString(1, servico.getNome());
 			preparedStatement.setString(2, servico.getDescricao());
 			preparedStatement.setString(3, servico.getPrioridade().getDescricao());
@@ -104,11 +105,11 @@ public class ServicoDao {
 	public boolean editarServico(Servico servico) {
 		boolean editado = false;
 		String query = "update servico "
-				+ "set nome = ?, "
-				+ "descricao = ?, "
-				+ "prioridade = ?, "
-				+ "area = ? "
-				+ "where id = ?";
+					 + "set nome = ?, "
+					 + "descricao = ?, "
+					 + "prioridade = ?, "
+					 + "area = ? "
+					 + "where id = ?";
 		
 		try {
 			connection.setAutoCommit(false);
@@ -197,6 +198,7 @@ public class ServicoDao {
 		} catch (Exception e) {
 			System.err.println("Erro ao selecionar servico: " + e.getMessage());
 		}
+		
 		
 		return servicos.get(0);
 	}

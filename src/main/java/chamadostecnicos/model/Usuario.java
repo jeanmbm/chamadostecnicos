@@ -3,32 +3,20 @@ package chamadostecnicos.model;
 public class Usuario {
 
 	private int id;
-	private String email;
-	private String senha;
 	private String nome;
 	private String telefone;
 	private String cpf;
+	private String email;
+	private String senha;
+	private int idDepartamento;
 	private Departamento departamento;
 	private boolean tecnico;
+	private int idEspecialidade;
 	private Especialidade especialidade;
 	
 	
 	public Usuario() {
 		super();
-	}
-
-	public Usuario(int id, String email, String senha, String nome, String telefone, String cpf,
-			Departamento departamento, boolean tecnico, Especialidade especialidade) {
-		super();
-		this.id = id;
-		this.email = email;
-		this.senha = senha;
-		this.nome = nome;
-		this.telefone = telefone;
-		this.cpf = cpf;
-		this.departamento = departamento;
-		this.tecnico = tecnico;
-		this.especialidade = especialidade;
 	}
 
 
@@ -104,17 +92,34 @@ public class Usuario {
 		this.especialidade = especialidade;
 	}
 
+	public int getIdDepartamento() {
+		return idDepartamento;
+	}
+
+	public void setIdDepartamento(int idDepartamento) {
+		this.idDepartamento = idDepartamento;
+	}
+
+	public int getIdEspecialidade() {
+		return idEspecialidade;
+	}
+
+	public void setIdEspecialidade(int idEspecialidade) {
+		this.idEspecialidade = idEspecialidade;
+	}
+
+
 	@Override
 	public String toString() {
-		return  "\n Id: " + id + 
-				"\n Email: " + email + 
-				"\n Senha: " + senha + 
-				"\n Nome: " + nome + 
-				"\n Telefone: " + telefone + 
-				"\n CPF: " + cpf + 
-				"\n Departamento: " + departamento + 
-				"\n Tecnico: " + tecnico + 
-				"\n Especialidade: " + especialidade;
+		return  "\n   Id: " + id + 
+				"\n   Email: " + email + 
+				"\n   Senha: " + senha + 
+				"\n   Nome: " + nome + 
+				"\n   Telefone: " + telefone + 
+				"\n   CPF: " + cpf + 
+				"\n   Departamento: " + departamento + 
+				"\n   Tecnico: " + tecnico + 
+				"\n   Especialidade: " + especialidade;
 	}
 	
 	

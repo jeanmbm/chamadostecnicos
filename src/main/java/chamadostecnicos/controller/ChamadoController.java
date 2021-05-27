@@ -3,140 +3,64 @@ package chamadostecnicos.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
-import chamadostecnicos.model.Acompanhamento;
 import chamadostecnicos.model.Chamado;
 import chamadostecnicos.model.Prioridade;
+import chamadostecnicos.model.Servico;
 import chamadostecnicos.model.Status;
-import chamadostecnicos.model.Usuario;
+import chamadostecnicos.model.dao.ChamadoDao;
+import chamadostecnicos.model.dao.ServicoDao;
 
 public class ChamadoController {
 	
-	
-	static List<Chamado> chamados = new ArrayList<Chamado>();
 	Chamado chamado;
-	Scanner scan = new Scanner(System.in);
-	Random r = new Random();
+	ChamadoDao chamadoDao;
 	
 	
 	// C - create
-	public void cadastrarChamado(Usuario usuario) {
-		ChamadoController controller = new ChamadoController();
-		chamado = new Chamado();
-		chamado = controller.preencherChamado();
-		chamado.setUsuario(usuario);
-		chamados.add(chamado);
-		System.out.println("");
-		System.out.println("!! Chamado aberto com sucesso. Está em análise !!");
-		System.out.println("");
+	public boolean cadastrarChamado(Chamado chamado) {
+		chamadoDao = new ChamadoDao();
+		boolean salvo = chamadoDao.salvarChamado(chamado);
+		return salvo;
 	}
 	
 	
-	public void listarChamado() {
+	public List<Chamado> listarChamado() {
 		List<Chamado> chamados = new ArrayList<Chamado>();
-		chamados = ChamadoController.chamados;
-		exibirChamados(chamados);
+		chamadoDao = new ChamadoDao();
+		chamados = chamadoDao.listarChamados();
+		return chamados;
 	}
 	
-	public void mudarStatusChamado(int id) {
-		boolean aux = false;
-		while (aux == false) {
-			System.out.println("Digite para qual status deseja mudar: em aberto, em andamento, concluido, cancelado");
-			String aux2 = scan.nextLine();
-			for (Chamado chamado : chamados) {
-				if(chamado.getId() == id) {
-					if (aux2.equalsIgnoreCase("Em aberto")) {
-						aux = true;
-						chamado.setStatus(Status.ABERTO);
-					} else if (aux2.equalsIgnoreCase("Em andamento")) {
-						aux = true;
-						chamado.setStatus(Status.ANDAMENTO);
-					} else if (aux2.equalsIgnoreCase("Concluido")) {
-						aux = true;
-						chamado.setStatus(Status.CONCLUIDO);
-					} else if (aux2.equalsIgnoreCase("Cancelado")) {
-						aux = true;
-						chamado.setStatus(Status.CANCELADO);
-					} else {
-						System.out.println("!! Status errado !!");
-					}	
-				}
-			}
-		}
-	}
-	
-	public void pegarChamado(int id, Acompanhamento acompanhamento) {
-		if (chamados.size() == 0) {
-			System.out.println("");
-			System.out.println("!! Não há chamados abertos !!");
-		} else {
-			for (Chamado chamado : chamados) {
-				if (chamado.getId() == id) {
-					chamado.setStatus(Status.ANDAMENTO);
-					acompanhamento.setChamado(chamado);
-				}
-			}
-		}
-	}
-	
-	public Chamado preencherChamado() {
-		Chamado chamado = new Chamado();
-		
-		System.out.println("Digite o id do servico que deseja: ");
-		int id = scan.nextInt();
-		ServicoController c = new ServicoController();
-		c.pegarServicoPorId(id, chamado);
-		
-		chamado.setStatus(Status.ANALISE);
-		
-		chamado.setDataAbertura(LocalDate.now());
-		
-		System.out.print("Digite informe o problema: ");
-		chamado.setMensagem(String.valueOf(scan.nextLine()));
-		
-		 if (chamado.getServico().getPrioridade() == Prioridade.BAIXA) {
-			chamado.setPrazoSolucao(chamado.getDataAbertura().plusDays(30));
-		} else if (chamado.getServico().getPrioridade() == Prioridade.MEDIA) {
-			chamado.setPrazoSolucao(chamado.getDataAbertura().plusDays(20));
-		} else if (chamado.getServico().getPrioridade() == Prioridade.ALTA) {
-			chamado.setPrazoSolucao(chamado.getDataAbertura().plusDays(10));
-		} else {
-			chamado.setPrazoSolucao(chamado.getDataAbertura().plusDays(5));
-		}
-		 
-		chamado.setId(r.nextInt(100));
-		
-		return chamado;
-	}
-	
-	
-	public void exibirChamados(List<Chamado> chamados) {
-		if (chamados.isEmpty()) {
-			System.out.println("!! Não há chamados !!");
-		} else {
-			System.out.println("");
-			System.out.println("=================================================================");
-			System.out.println("=========================\\ CHAMADOS //=========================");
-			for (Chamado chamado : chamados) {
-				System.out.println("");
-				System.out.println("Id: " + chamado.getId());
-				System.out.println("");
-				System.out.println("Usuario: " + chamado.getUsuario().toString());
-				System.out.println("");
-				System.out.println("Servico: " + chamado.getServico().toString());
-				System.out.println("");
-				System.out.println("Problema: " + chamado.getMensagem());
-				System.out.println("Status: " + chamado.getStatus());
-				System.out.println("Data de abertura: " + chamado.getDataAbertura());
-				System.out.println("Prazo: " + chamado.getPrazoSolucao());
-				System.out.println("");
-				System.out.println("=================================================================");
-			}
-			System.out.println("=================================================================");
-			System.out.println("");
-		}
-	}
+//	public void mudarStatusChamado(int id) {
+//		chamadoDao = new ChamadoDao();
+//		Status status = null;
+//		boolean aux = false;
+//		
+//		while (aux == false) {
+//			System.out.println("Digite para qual status deseja mudar: em aberto, cancelado");
+//			String aux2 = scan.nextLine();
+//			
+//			if (aux2.equalsIgnoreCase("Em aberto")) {
+//				aux = true;
+//				status = Status.ABERTO;
+//			} else if (aux2.equalsIgnoreCase("Cancelado")) {
+//				aux = true;
+//				status = Status.CANCELADO;
+//			} else {
+//				System.out.println("!! Status inválido !!");
+//				aux = false;
+//			}
+//		}
+//		
+//		boolean editado = chamadoDao.editarStatusDoChamado(status, id);
+//		if (editado) {
+//			System.out.println("");
+//			System.out.println("!! Status editado com sucesso !!");
+//			System.out.println("");
+//		}
+//		
+//	}
 
 }

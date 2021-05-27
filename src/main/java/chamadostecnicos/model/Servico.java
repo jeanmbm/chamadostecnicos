@@ -80,12 +80,12 @@ public class Servico {
 
 	@Override
 	public String toString() {
-		return "\n Id: " + id + 
-			   "\n Nome: " + nome + 
-			   "\n Descrição: " + descricao + 
-			   "\n Prioridade: " + prioridade + 
-			   "\n Categoria: " + categoria +
-			   "\n Area: " + area;
+		return "\n   Id: " + id + 
+			   "\n   Nome: " + nome + 
+			   "\n   Descrição: " + descricao + 
+			   "\n   Prioridade: " + prioridade + 
+			   "\n   Categoria: " + categoria +
+			   "\n   Area: " + area;
 	}
 
 }

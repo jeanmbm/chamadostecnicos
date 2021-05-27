@@ -1,263 +1,201 @@
 package chamadostecnicos.controller;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
-import chamadostecnicos.model.Acompanhamento;
+import chamadostecnicos.model.Chamado;
 import chamadostecnicos.model.Usuario;
+import chamadostecnicos.model.dao.UsuarioDao;
 
 
 public class UsuarioController {
 
-	static List<Usuario> usuarios = new ArrayList<Usuario>();
-	static List<Usuario> tecnicos = new ArrayList<Usuario>();
-	Usuario usuario;
-	Scanner scan = new Scanner(System.in);
-	Random r = new Random(); 
-	
+	UsuarioDao usuarioDao = new UsuarioDao();
 	
 	// C - create
-	public void cadastrarUsuario() {
-		UsuarioController controller = new UsuarioController();
-		usuario = new Usuario();
-		usuario = controller.preencherDadosUsuario();
-		usuarios.add(usuario);
-		if (usuario.isTecnico() == true) {
-			tecnicos.add(usuario);
+	public boolean cadastrarUsuario(Usuario usuario) {
+		boolean salvo = false;
+		
+		boolean validado = validarUsuario(usuario);
+		if (validado) {
+			salvo = usuarioDao.salvarUsusario(usuario);
 		}
-		System.out.println("");
-		System.out.println("!! Usuário cadastrado com sucesso !!");
-		System.out.println("");
+		
+		return salvo;
 	}
+	
 	
 	// R - read
-	public void listarUsuarios() {
-		List<Usuario> usuarios = new ArrayList<Usuario>();
-		usuarios = UsuarioController.usuarios;
-		exibirDadosUsuario(usuarios);
+	public List<Usuario> listarUsuarios() {
+		List<Usuario> usuarios;
+		usuarios = usuarioDao.listarUsuarios();
+		
+		if (usuarios.isEmpty()) {
+			System.out.println("");
+			System.out.println("!! Não há usuários cadastrados !!");
+			System.out.println("");
+		}
+		
+		return usuarios;
 	}
+	
 	
 	// U - update
-	public void editarUsuario(String email, String senha) {
-		List<Usuario> removerUsuario = new ArrayList<Usuario>();
-		Usuario usuarioEditado = new Usuario();
-		usuario = new Usuario();
-		for (int i = 0; i < usuarios.size(); i++) {
-			usuario = usuarios.get(i);
-			if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
-				removerUsuario.add(usuario);
-				usuarioEditado = editarUsuario(usuario);
+	public boolean editarUsuario(Usuario usuario, String email, String senha) {
+		boolean editado = false;
+		boolean deletado = false;
+		
+		if (email.equals("") || email == null || email.isEmpty()) {
+			System.out.println("");
+			System.err.println("Erro! Campo email não pode ser nulo ou vazio !!");
+			System.out.println("");
+			editado = false;
+			
+		} else if (senha.equals("") || senha == null || senha.isEmpty()) {
+			System.out.println("");
+			System.err.println("Erro! Campo senha não pode ser nulo ou vazio !!");
+			System.out.println("");
+			editado = false;
+			
+		} else {
+			boolean validado = validarUsuario(usuario);
+			if (validado) {
+				deletado = usuarioDao.deletarUsuario(email, senha);
+				if (deletado) {
+					editado = usuarioDao.salvarUsusario(usuario);
+				}
 			}
 		}
 		
-		if (removerUsuario.isEmpty()) {
-			System.out.println("");
-			System.out.println("!! Usuario não encontrado !!");
-		} else {
-			usuarios.removeAll(removerUsuario);
-			usuarios.add(usuarioEditado);
-			System.out.println("");
-			System.out.println("!! Usuario editado com sucesso !!");
-		}
+		return editado;
 	}
+	
 	
 	// D - delete
-	public void apagarUsuario(String email, String senha) {
-		List<Usuario> removerUsuario = new ArrayList<Usuario>();
-		for (int i = 0; i < usuarios.size(); i++) {
-			usuario = usuarios.get(i);
-			if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
-				removerUsuario.add(usuario);
-			}
-		}
-		
-		if (removerUsuario.isEmpty()) {
-			System.out.println("");
-			System.out.println("!! Usuario não encontrado !!");
-		} else {
-			usuarios.removeAll(removerUsuario);
-			System.out.println("");
-			System.out.println("!! Usuario removido com sucesso !!");
-		}
-	}
-	
-	
-	public void abrirChamado() {
-		ChamadoController controller = new ChamadoController();
-		AcompanhamentoController a = new AcompanhamentoController();
-		
-		System.out.printf("Digite o email do usuario que irá abrir o chamado: ");
-		String email = scan.next();
-		System.out.printf("Digite a senha: ");
-		String senha = scan.next();
-		
-		for (int i = 0; i < usuarios.size(); i++) {
-			usuario = usuarios.get(i);
-			if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
-				controller.cadastrarChamado(usuario);
-			}
-		}
-		
-	}
-	
-	
-	public void pegarTecnico(Acompanhamento acompanhamento) {
-		for (Usuario usuario : tecnicos) {
-			if (usuario.getEspecialidade().getArea() == acompanhamento.getChamado().getServico().getArea()) {
-				acompanhamento.setTecnico(usuario);
-			}
-		}
-	}
-	
-	
-	// Codigos auxiliares
-	public Usuario preencherDadosUsuario() {
-		Usuario usuario = new Usuario();
-		
-		System.out.printf("Digite seu nome: ");
-		usuario.setNome(String.valueOf(scan.nextLine()));
-		
-		System.out.printf("Digite seu telefone: ");
-		usuario.setTelefone(scan.nextLine());
-		
-		boolean a = false;
-		while (a == false) {
-			System.out.printf("Digite seu cpf: ");
-			String aux = scan.next(); 
-			if (isCPF(aux)) {
-				a = true;
-				usuario.setCpf(aux);
-			} else {
-				System.out.println("!! CPF invalido !!");
-			}
-		}
-		
-		System.out.printf("Digite o email para efetuar login: ");
-		usuario.setEmail(scan.next());
-		
-		System.out.printf("Digite a senha: ");
-		usuario.setSenha(scan.next());
-		
-		System.out.print("Digite o id do departamento ao qual pertence: ");
-		int id = scan.nextInt();
-		DepartamentoController d = new DepartamentoController();
-		//d.pegarDepartamentoPorId(id, usuario);
-		
-		System.out.println("Você é um tecnico?");
-		
-		boolean b = false;
-		while (b == false) {
-			System.out.print(" Digite S ou N: ");
-			String aux2 = scan.next();
-			if (aux2.equalsIgnoreCase("S")) {
-				b = true;
-				usuario.setTecnico(true);
-			} else if (aux2.equalsIgnoreCase("N")) {
-				b = true;
-				usuario.setTecnico(false);
-			} else {
-				System.out.print("!! Iválido !!");
-			}
-		}
-		
-		if (usuario.isTecnico() == true) {
-			System.out.print("Digite o id da especialidade ao qual pertence: ");
-			int id2 = scan.nextInt();
-			EspecialidadeController e = new EspecialidadeController();
-			e.pegarEspecialidadePorId(id2, usuario);
-		} else {
-			usuario.setEspecialidade(null);
-		}
-		
-		usuario.setId(r.nextInt(100));
-		
-		return usuario;
-		
-	}
-	
-	private void exibirDadosUsuario(List<Usuario> usuarios) {
-		if (usuarios.isEmpty()) {
-			System.out.println("!! Não há usuarios cadastrados !!");
-		} else {
-			System.out.println("================================================================");
-			System.out.println("=========================\\ USUÁRIOS //=========================");
-			for (Usuario usuario : usuarios) {
-				System.out.println("");
-				System.out.println("Id: " + usuario.getId());
-				System.out.println("Nome: " + usuario.getNome());
-				System.out.println("Telefone: " + usuario.getTelefone());
-				System.out.println("CPF: " + imprimeCPF(usuario.getCpf()));
-				System.out.println("Email: " + usuario.getEmail());
-				System.out.println("Senha: " + usuario.getSenha());
-				System.out.println("Departamento: " + usuario.getDepartamento());
-				System.out.println("É tecnico: " + usuario.isTecnico());
-				if (usuario.isTecnico() == true) {
-					System.out.println("Especialidade: " + usuario.getEspecialidade());
-				}
-				System.out.println("");
-				System.out.println("================================================================");
-			}
-			System.out.println("================================================================");
-			System.out.println("");
-		}
-	}
-	
-	private Usuario editarUsuario(Usuario usuario) {
-		Usuario usuarioEditado = new Usuario();
-		
-		System.out.printf("Digite o nome: ");
-		usuarioEditado.setNome(String.valueOf(scan.nextLine()));
-		
-		System.out.printf("Digite o telefone: ");
-		usuarioEditado.setTelefone(scan.nextLine());
-		
-		System.out.printf("Digite a senha: ");
-		usuarioEditado.setSenha(scan.next());
-		
-		System.out.printf("Digite o id do departamento ao qual pertence: ");
-		int id = scan.nextInt();
-		DepartamentoController d = new DepartamentoController();
-		//d.pegarDepartamentoPorId(id, usuarioEditado);
-		
-		System.out.print("Você é um tecnico? ");
-		boolean b = false;
-		while (b == false) {
-			System.out.print(" Digite S ou N: ");
-			String aux2 = scan.next();
-			if (aux2.equalsIgnoreCase("S")) {
-				b = true;
-				usuarioEditado.setTecnico(true);
-			} else if (aux2.equalsIgnoreCase("N")) {
-				b = true;
-				usuarioEditado.setTecnico(false);
-			} else {
-				System.out.print("!! Iválido !!");
-			}
-		}
-		
-		if (usuarioEditado.isTecnico() == true) {
-			System.out.print("Digite o id da especialidade ao qual pertence: ");
-			int id2 = scan.nextInt();
-			EspecialidadeController e = new EspecialidadeController();
-			e.pegarEspecialidadePorId(id2, usuarioEditado);
-		} else {
-			usuarioEditado.setEspecialidade(null);
-		}
-		
-		usuarioEditado.setCpf(usuario.getCpf());
-		usuarioEditado.setEmail(usuario.getEmail());
-		usuarioEditado.setId(usuario.getId());
-		
-		return usuarioEditado;
+	public boolean apagarUsuario(String email, String senha) {
+		boolean deletado = false;
 				
+		if (email.equals("") || email == null || email.isEmpty()) {
+			System.out.println("");
+			System.err.println("Erro! Campo email não pode ser nulo ou vazio !!");
+			System.out.println("");
+			deletado = false;
+			
+		} else if (senha.equals("") || senha == null || senha.isEmpty()) {
+			System.out.println("");
+			System.err.println("Erro! Campo senha não pode ser nulo ou vazio !!");
+			System.out.println("");
+			deletado = false;
+			
+		} else {
+			deletado = usuarioDao.deletarUsuario(email, senha);
+		}
+		
+		return deletado;
 	}
 	
 	
-		// verificar CPF
-	public static boolean isCPF(String CPF) {
+	// Abrir chamado é feito pelo usuario
+	public boolean abrirChamado(String email, String senha, Chamado chamado) {
+		Usuario usuario = new Usuario();
+		ChamadoController chamadoController = new ChamadoController(); 
+		boolean aberto = false;
+		
+		if (email.equals("") || email == null || email.isEmpty()) {
+			System.out.println("");
+			System.err.println("Erro! Campo email não pode ser nulo ou vazio !!");
+			System.out.println("");
+			aberto = false;
+			
+		} else if (senha.equals("") || senha == null || senha.isEmpty()) {
+			System.out.println("");
+			System.err.println("Erro! Campo senha não pode ser nulo ou vazio !!");
+			System.out.println("");
+			aberto = false;
+			
+		} else {
+			usuario = usuarioDao.selecionarUsuarioPorEmailESenha(email, senha);
+			chamado.setIdUsuario(usuario.getId());
+		
+			aberto = chamadoController.cadastrarChamado(chamado);
+		}
+		
+		return aberto;
+	}
+	
+
+	private boolean validarUsuario(Usuario usuario) {
+		boolean validado = false;
+		
+		if ( !(usuario.getNome().isEmpty()) || !(usuario.getNome() != null) || !(usuario.getNome().equalsIgnoreCase("")) ) {
+			
+			if ( !(usuario.getTelefone().isEmpty()) || !(usuario.getTelefone() != null) || !(usuario.getTelefone().equalsIgnoreCase("")) ) {
+				
+				if (isCPF(usuario.getCpf())) {
+					
+					if ( !(usuario.getEmail().isEmpty()) || !(usuario.getEmail() != null) || !(usuario.getEmail().equalsIgnoreCase(""))) {
+						
+						if ( !(usuario.getSenha().isEmpty()) || !(usuario.getSenha() != null) || !(usuario.getSenha().equalsIgnoreCase(""))){
+							
+							if (usuario.getIdDepartamento() > 0) {
+								
+								if (usuario.isTecnico()) {
+									
+									if (usuario.getIdEspecialidade() > 0) {
+										validado = true;
+										
+									} else {
+										System.out.println("");
+										System.err.println("Erro! Campo id especialidade não pode ser menor ou igual a 0 !!");
+										System.out.println("");
+									}
+
+								} else {
+									validado = true;
+								}
+								
+							} else {
+								System.out.println("");
+								System.err.println("Erro! Campo id departamento não pode ser menor ou igual a 0 !!");
+								System.out.println("");
+							}
+							
+						} else {
+							System.out.println("");
+							System.err.println("Erro! Campo senha não pode ser nulo ou vazio !!");
+							System.out.println("");
+						}
+						
+					} else {
+						System.out.println("");
+						System.err.println("Erro! Campo email não pode ser nulo ou vazio !!");
+						System.out.println("");
+					}
+					
+				} else {
+					System.out.println("");
+					System.err.println("Erro! CPF inválido !!");
+					System.out.println("");
+				}
+				
+			} else {
+				System.out.println("");
+				System.err.println("Erro! Campo telefone não pode ser nulo ou vazio !!");
+				System.out.println("");
+			}
+			
+		} else {
+			System.out.println("");
+			System.err.println("Erro! Nome não pode ser nulo ou vazio !!");
+			System.out.println("");
+		}
+		
+		return validado;
+	}
+	
+	
+	// verificar CPF
+	private static boolean isCPF(String CPF) {
 		// considera-se erro CPF's formados por uma sequencia de numeros iguais
 	    if (CPF.equals("00000000000") || CPF.equals("11111111111") || CPF.equals("22222222222") || 
 	    	CPF.equals("33333333333") || CPF.equals("44444444444") || CPF.equals("55555555555") ||
@@ -308,11 +246,6 @@ public class UsuarioController {
 	                } catch (InputMismatchException erro) {
 	                return(false);
 	            }
-	        }
-
-	        public static String imprimeCPF(String CPF) {
-	            return(CPF.substring(0, 3) + "." + CPF.substring(3, 6) + "." +
-	            CPF.substring(6, 9) + "-" + CPF.substring(9, 11));
-	        }
+	}
 		
 }

@@ -56,10 +56,10 @@ public class Especialidade {
 
 	@Override
 	public String toString() {
-		return "\n Id: " + id + 
-				"\n Nome: " + nome + 
-				"\n Descrição: " + descricao +
-				"\n Area: " + area;
+		return  "\n   Id: " + id + 
+				"\n   Nome: " + nome + 
+				"\n   Descrição: " + descricao +
+				"\n   Area: " + area;
 	}
 	
 }

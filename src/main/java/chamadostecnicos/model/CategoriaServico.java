@@ -48,9 +48,9 @@ public class CategoriaServico {
 	
 	@Override
 	public String toString() {
-		return "\n  Id: " + id + 
-				"\n  Nome: " + nome + 
-				"\n  Descrição: " + descricao;
+		return  "\n   Id: " + id + 
+				"\n   Nome: " + nome + 
+				"\n   Descrição: " + descricao;
 	}
 
 }

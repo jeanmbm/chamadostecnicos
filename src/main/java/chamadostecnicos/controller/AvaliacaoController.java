@@ -9,9 +9,7 @@ import chamadostecnicos.model.Avaliacao;
 
 public class AvaliacaoController {
 	
-	
 	Scanner scan = new Scanner(System.in);
-	Random r = new Random();
 	
 	
 	public Avaliacao realizarAvaliacao() {
@@ -24,9 +22,7 @@ public class AvaliacaoController {
 		avaliacao.setQuantEstrelas(scan.nextInt());
 		
 		avaliacao.setDataAvalicacao(LocalDate.now());
-		
-		avaliacao.setId(r.nextInt(100));
-		
+
 		return avaliacao;
 		
 	}
