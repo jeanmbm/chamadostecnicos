@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import chamadostecnicos.model.Acompanhamento;
-import chamadostecnicos.model.Area;
 import chamadostecnicos.model.Avaliacao;
 import chamadostecnicos.model.Chamado;
 import chamadostecnicos.model.Status;
@@ -49,8 +48,7 @@ public class AcompanhamentoController {
 			} else {
 				String area = chamado.getServico().getArea().getDescricao();
 				usuario = usuarioDao.selecioanarUsuarioTecnico(area);
-//				gerado = acompanhamentoDao.salvarAcompanhamento(chamado.getId(), usuario.getId());
-				gerado = acompanhamentoDao.salvarAcompanhamento(2, 1);
+				gerado = acompanhamentoDao.salvarAcompanhamento(chamado.getId(), usuario.getId());
 			}
 			
 		} else {
@@ -95,30 +93,33 @@ public class AcompanhamentoController {
 	}
 	
 	
-	public void exibirAcompanhamento() {
-//		for (Acompanhamento acompanhamento : acompanhamentos) {
-//			System.out.println(acompanhamento.toString());
-//		}
+	public List<Acompanhamento> listarAcompanhamento() {
+		acompanhamentoDao = new AcompanhamentoDao();
+		List<Acompanhamento> acompanhamentos = new ArrayList<Acompanhamento>();
+		acompanhamentos = acompanhamentoDao.lisatrAcompanhamentos();
+		return acompanhamentos;
 	}
 	
 	
-//	public void finalizarAcompanhamento(int id) {
-//		ChamadoController c = new ChamadoController();
-//		AvaliacaoController avaliacaoController = new AvaliacaoController();
-//		avaliacao = new Avaliacao();
-//		acompanhamentoDao = new AcompanhamentoDao();
-//		
-//		System.out.println("Digite o id do acompanhamento: ");
-//		
-//		if (acompanhamento.isSolucionadoUsuario() == true && acompanhamento.isSolucionadoTecnico() == true) {
-//			chamado.setStatus(Status.CONCLUIDO);
-//			chamado.setPrazoSolucao(LocalDate.now());
-//			
-//			avaliacao = avaliacaoController.realizarAvaliacao(); 
-//			acompanhamentoDao.finalizarAcompanhamento(avaliacao);
-//		} else {
-//			System.out.println("Um dos usuarios não finalizou o acompanhamento");
-//		}
-//	}
+	public boolean finalizarAcompanhamento(int id) {
+		AvaliacaoController avaliacaoController = new AvaliacaoController();
+		avaliacao = new Avaliacao();
+		acompanhamentoDao = new AcompanhamentoDao();
+		boolean finalizado = false;
+		
+		boolean verificar = acompanhamentoDao.verificarFinalizado(id);
+		
+		if (verificar) {
+			avaliacao = avaliacaoController.realizarAvaliacao(); 
+			finalizado = acompanhamentoDao.finalizarAcompanhamento(id, avaliacao);
+		} else {
+			System.out.println("");
+			System.err.println("!! Um dos usuarios não finalizou o chamado !!");
+			System.out.println("");
+		}
+			
+		return finalizado;
+
+	}
 	
 }

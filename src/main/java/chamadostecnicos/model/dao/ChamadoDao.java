@@ -115,9 +115,9 @@ public class ChamadoDao {
 	public boolean editarStatusDoChamado(Status status, LocalDate data, int id) {
 		boolean editado = false;
 		String query = "update chamado "
-			     			+ "set status = ?, "
-			     			+ "dataSolucao = ?"
-			     			+ "where id = ?";
+			     	 + "set status = ?, "
+			     	 + "dataSolucao = ?"
+			     	 + "where id = ?";
 		
 		try {
 			connection.setAutoCommit(false);
@@ -192,33 +192,6 @@ public class ChamadoDao {
 		return chamados.get(0);
 	}
 	
-	
-//	public boolean verificarExistencia(int id) {
-//		boolean existe = false;
-//		ResultSet resultSet;
-//		int id1 = 0;
-//		
-//		try {
-//			preparedStatement = connection.prepareStatement("select id from chamado where id = " + id);
-//			resultSet = preparedStatement.executeQuery();
-//			
-//			while(resultSet.next()) {
-//				id1 = resultSet.getInt("id");
-//			}
-//			
-//			if (id1 != 0) {
-//				existe = true;
-//			} else {
-//				existe = false;
-//			}
-//			
-//		} catch (Exception e) {
-//			existe = false;
-//		}
-//		
-//		return existe;
-//		
-//	}
 	
 	public LocalDate convertToLocalDateViaSqlDate(Date dateToConvert) {
 	    return new java.sql.Date(dateToConvert.getTime()).toLocalDate();

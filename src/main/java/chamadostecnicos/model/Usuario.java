@@ -19,6 +19,19 @@ public class Usuario {
 		super();
 	}
 
+	public Usuario(String nome, String telefone, String cpf, String email, String senha, int idDepartamento,
+			boolean tecnico, int idEspecialidade) {
+		super();
+		this.nome = nome;
+		this.telefone = telefone;
+		this.cpf = cpf;
+		this.email = email;
+		this.senha = senha;
+		this.idDepartamento = idDepartamento;
+		this.tecnico = tecnico;
+		this.idEspecialidade = idEspecialidade;
+	}
+
 
 	public int getId() {
 		return id;
@@ -111,14 +124,11 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return  "\n   Id: " + id + 
-				"\n   Email: " + email + 
-				"\n   Senha: " + senha + 
-				"\n   Nome: " + nome + 
+		return  "\n   Nome: " + nome + 
 				"\n   Telefone: " + telefone + 
 				"\n   CPF: " + cpf + 
-				"\n   Departamento: " + departamento + 
-				"\n   Tecnico: " + tecnico + 
+				"\n   Departamento: " + departamento.getNome() + 
+				"\n   Tecnico: " + tecnico +
 				"\n   Especialidade: " + especialidade;
 	}
 	

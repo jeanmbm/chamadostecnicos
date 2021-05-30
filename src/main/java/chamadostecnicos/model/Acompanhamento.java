@@ -19,7 +19,17 @@ public class Acompanhamento {
 		super();
 	}
 
-	
+	public Acompanhamento(int idTecnico, int idChamado, boolean solucionadoTecnico, boolean solucionadoUsuario,
+			int idAvaliacao) {
+		super();
+		this.idTecnico = idTecnico;
+		this.idChamado = idChamado;
+		this.solucionadoTecnico = solucionadoTecnico;
+		this.solucionadoUsuario = solucionadoUsuario;
+		this.idAvaliacao = idAvaliacao;
+	}
+
+
 	public int getId() {
 		return id;
 	}
@@ -92,11 +102,5 @@ public class Acompanhamento {
 		this.idAvaliacao = idAvaliacao;
 	}
 
-
-	@Override
-	public String toString() {
-		return "Acompanhamento [id=" + id + ", tecnico=" + tecnico + ", chamado=" + chamado + ", solucionadoTecnico="
-				+ solucionadoTecnico + ", solucionadoUsuario=" + solucionadoUsuario + ", avaliacao=" + avaliacao + "]";
-	}
 	
 }

@@ -13,8 +13,17 @@ public class DepartamentoController {
 	
 	// C - create
 	public boolean cadastrarDepartamento(Departamento departamento) {
-		departamentoDao = new DepartamentoDao();
-		boolean salvo = departamentoDao.salvarDepartamento(departamento);
+		boolean salvo = false;
+		
+		if (departamento.getNome().isEmpty() || departamento.getNome()  == null) {
+			System.out.println("");
+			System.err.println("Erro! Campo nome não pode ser nulo ou vazio !!");
+			System.out.println("");
+		} else {
+			departamentoDao = new DepartamentoDao();
+			salvo = departamentoDao.salvarDepartamento(departamento);
+		}
+		
 		return salvo;
 	}
 	
@@ -30,16 +39,36 @@ public class DepartamentoController {
 	
 	// U - update
 	public boolean editarDepartamento(Departamento departamento) {
-		departamentoDao = new DepartamentoDao();
-		boolean editado = departamentoDao.editarDepartamento(departamento);
+		boolean editado = false;
+		
+		if (departamento.getNome().isEmpty() || departamento.getNome()  == null) {
+			System.out.println("");
+			System.err.println("Erro! Campo nome não pode ser nulo ou vazio !!");
+			System.out.println("");
+		} else {
+			departamentoDao = new DepartamentoDao();
+			editado = departamentoDao.editarDepartamento(departamento);
+		}
+		
 		return editado;
 	}
 	
 	
 	// D - delete
 	public boolean apagarDepartamento (int id) {
+		boolean deletado = false;
 		departamentoDao = new DepartamentoDao();
-		boolean deletado = departamentoDao.deletarDepartamento(id);
+		
+		if (id <= 0) {
+			System.out.println("");
+			System.err.println("Erro! ID não pode ser menor ou igual a 0 !!");
+			System.out.println("");
+			deletado = false;
+			
+		} else {
+			deletado = departamentoDao.deletarDepartamento(id);
+		}
+		
 		return deletado;
 	}
 	

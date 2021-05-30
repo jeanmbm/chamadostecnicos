@@ -15,8 +15,21 @@ public class ServicoController {
 	
 	// C - create
 	public boolean cadastrarServico(Servico servico) {
-		servicoDao = new ServicoDao();
-		boolean salvo = servicoDao.salvarServico(servico);
+		boolean salvo = false;
+		
+		if (servico.getNome().isEmpty() || servico.getNome() == null) {
+			System.err.println("Erro! Campo 'Nome' não pode ser nulo ou vazio !!");
+		} else if (servico.getPrioridade() == null) {
+			System.err.println("Erro! Campo 'Prioridade' não pode ser nulo ou vazio !!");
+		} else if (servico.getArea() == null) {
+			System.err.println("Erro! Campo 'Area' não pode ser nulo ou vazio !!");
+		} else if (servico.getIdCategoria() <= 0) {
+			System.err.println("Erro! Campo 'IdCategoria' não pode ser menor ou igual !!");
+		} else {
+			servicoDao = new ServicoDao();
+			salvo = servicoDao.salvarServico(servico);
+		}
+		
 		return salvo;
 	}
 	
@@ -30,15 +43,37 @@ public class ServicoController {
 	
 	// U - update
 	public boolean editarServico(Servico servico) {
-		servicoDao = new ServicoDao();
-		boolean editado = servicoDao.editarServico(servico);
+		boolean editado = false;
+		
+		if (servico.getNome().isEmpty() || servico.getNome() == null) {
+			System.err.println("Erro! Campo 'Nome' não pode ser nulo ou vazio !!");
+		} else if (servico.getPrioridade() == null) {
+			System.err.println("Erro! Campo 'Prioridade' não pode ser nulo ou vazio !!");
+		} else if (servico.getArea() == null) {
+			System.err.println("Erro! Campo 'Area' não pode ser nulo ou vazio !!");
+		} else if (servico.getIdCategoria() <= 0) {
+			System.err.println("Erro! Campo 'IdCategoria' não pode ser menor ou igual !!");
+		} else {
+			servicoDao = new ServicoDao();
+			editado = servicoDao.editarServico(servico);
+		}
+		
 		return editado;
 	}
 	
 	// D - delete
 	public boolean apagarServico(int id) {
-		servicoDao = new ServicoDao();
-		boolean deletado = servicoDao.deletarServico(id);
+		boolean deletado = false;
+		
+		if (id > 0) {
+			servicoDao = new ServicoDao();
+			deletado = servicoDao.deletarServico(id);
+		} else {
+			System.err.println("Erro! ID não pode ser menor ou igual a 0 !!");
+			System.out.println();
+			deletado = false;
+		}
+		
 		return deletado;
 	}
 

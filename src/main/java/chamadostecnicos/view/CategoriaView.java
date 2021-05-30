@@ -13,6 +13,12 @@ public class CategoriaView {
 	public CategoriaServico preencherDadosCategoria() {
 		CategoriaServico categoria = new CategoriaServico();
 		
+		System.out.println("");
+		System.out.println("===================================");
+		System.out.println("||     CADASTRO DE CATEGORIA     ||");
+		System.out.println("===================================");
+		System.out.println("");
+		
 		System.out.printf("Digite o nome da categoria: ");
 		categoria.setNome(String.valueOf(scan.nextLine()));
 		
@@ -27,19 +33,20 @@ public class CategoriaView {
 		if (categorias.isEmpty()) {
 			System.out.println("");
 			System.out.println("!! Não há categorias cadastradas !!");
+			System.out.println("");
 		} else {
 			System.out.println("");
-			System.out.println("=================================================================");
-			System.out.println("=========================\\ CATEGORIAS //=========================");
+			System.out.println("=========================================================================================================================================");
+			System.out.println("=========================================================\\ CATEGORIAS //=================================================================");
 			for (CategoriaServico categoriaServico : categorias) {
 				System.out.println("");
 				System.out.println("Id: " + categoriaServico.getId());
 				System.out.println("Nome: " + categoriaServico.getNome());
 				System.out.println("Descrição: " + categoriaServico.getDescricao());
-				System.out.println(" ");
-				System.out.println("==================================================================");
+				System.out.println("");
+				System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------");
 			}
-			System.out.println("==================================================================");
+			System.out.println("=========================================================================================================================================");
 			System.out.println("");
 		}
 	}
@@ -47,6 +54,12 @@ public class CategoriaView {
 	
 	public CategoriaServico atualizarDadosCategoria(int id) {
 		CategoriaServico categoriaEditada = new CategoriaServico();
+		
+		System.out.println("");
+		System.out.println("=================================");
+		System.out.println("||     EDIÇÃO DE CATEGORIA     ||");
+		System.out.println("=================================");
+		System.out.println("");
 		
 		System.out.printf("Digite o nome da categoria: ");
 		categoriaEditada.setNome(String.valueOf(scan.nextLine()));

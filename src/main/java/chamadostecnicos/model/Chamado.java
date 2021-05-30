@@ -20,6 +20,18 @@ public class Chamado {
 		super();
 	}
 	
+	public Chamado(int idUsuario, int idServico, Status status, String mensagem, LocalDate dataAbertura,
+			LocalDate prazoSolucao, LocalDate dataSolucao) {
+		super();
+		this.idUsuario = idUsuario;
+		this.IdServico = idServico;
+		this.status = status;
+		this.mensagem = mensagem;
+		this.dataAbertura = dataAbertura;
+		this.prazoSolucao = prazoSolucao;
+		this.dataSolucao = dataSolucao;
+	}
+
 
 	public int getId() {
 		return id;
@@ -105,7 +117,7 @@ public class Chamado {
 	@Override
 	public String toString() {
 		return  "\n   Id: " + id + 
-				"\n   Usuario: " + usuario + 
+				"\n   Usuario: " + usuario.toString() + 
 				"\n   Servico: " + servico + 
 				"\n   Mensagem: " + mensagem +
 				"\n   Status: " + status + 

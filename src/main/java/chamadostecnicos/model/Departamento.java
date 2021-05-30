@@ -8,12 +8,10 @@ public class Departamento {
 	
 	
 	public Departamento() {
-		super();
 	}
 
-	public Departamento(int id, String nome, String descricao) {
+	public Departamento(String nome, String descricao) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 	}
@@ -46,8 +44,7 @@ public class Departamento {
 	
 	@Override
 	public String toString() {
-		return  "\n   Id: " + id + 
-				"\n   Nome: " + nome + 
+		return  "\n   Nome: " + nome + 
 				"\n   Descrição: " + descricao;
 	}
 	

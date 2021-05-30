@@ -12,9 +12,8 @@ public class Especialidade {
 		super();
 	}
 
-	public Especialidade(int id, String nome, String descricao, Area area) {
+	public Especialidade(String nome, String descricao, Area area) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.area = area;
@@ -56,8 +55,7 @@ public class Especialidade {
 
 	@Override
 	public String toString() {
-		return  "\n   Id: " + id + 
-				"\n   Nome: " + nome + 
+		return  "\n   Nome: " + nome + 
 				"\n   Descrição: " + descricao +
 				"\n   Area: " + area;
 	}

@@ -16,18 +16,8 @@ public class ServicoView {
 		Servico servico = new Servico();
 		boolean aux = false;
 		
-		while (aux == false) {
-			System.out.print("Digite o nome do servico: ");
-			servico.setNome(String.valueOf(scan.nextLine()));
-			
-			if (servico.getNome() == null || servico.getNome().isEmpty()) {
-				System.out.println("!! Nome não pode ser nulo ou vazio !!");
-				System.out.println("");
-				aux = false;
-			} else {
-				aux = true;
-			}
-		}
+		System.out.print("Digite o nome do servico: ");
+		servico.setNome(String.valueOf(scan.nextLine()));
 		
 		System.out.print("Digite a descrição do servico: ");
 		servico.setDescricao(String.valueOf(scan.nextLine()));
@@ -91,11 +81,13 @@ public class ServicoView {
 	
 	public void exibirDadosCategoria(List<Servico> servicos) {
 		if (servicos.isEmpty()) {
+			System.out.println("");
 			System.out.println("!! Não há servicos cadastrados !!");
+			System.out.println("");
 		} else {
 			System.out.println("");
-			System.out.println("===============================================================");
-			System.out.println("=========================\\ SERVICOS //=========================");
+			System.out.println("=========================================================================================================================================");
+			System.out.println("==========================================================\\ SERVICOS //==================================================================");
 			for (Servico servico : servicos) {
 				System.out.println("");
 				System.out.println("Id: " + servico.getId());
@@ -105,9 +97,9 @@ public class ServicoView {
 				System.out.println("Área: " + servico.getArea().getDescricao());
 				System.out.println("Categoria: " + servico.getCategoria().toString());
 				System.out.println("");
-				System.out.println("================================================================");
+				System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------");
 			}
-			System.out.println("================================================================");
+			System.out.println("=========================================================================================================================================");
 			System.out.println("");
 		}
 		

@@ -14,9 +14,8 @@ public class Avaliacao {
 		super();
 	}
 
-	public Avaliacao(int id, int quantEstrelas, String comentario, LocalDate dataAvalicacao) {
+	public Avaliacao(int quantEstrelas, String comentario, LocalDate dataAvalicacao) {
 		super();
-		this.id = id;
 		this.quantEstrelas = quantEstrelas;
 		this.comentario = comentario;
 		this.dataAvalicacao = dataAvalicacao;
@@ -57,8 +56,7 @@ public class Avaliacao {
 
 	@Override
 	public String toString() {
-		return  "\n Id: " + id + 
-				"\n Quantidade de estrelas: " + quantEstrelas + 
+		return  "\n Quantidade de estrelas: " + quantEstrelas + 
 				"\n Comentário: " + comentario + 
 				"\n Data da avalicação: " + dataAvalicacao;
 	}

@@ -15,7 +15,7 @@ public class CategoriaServicoController {
 		boolean salvo = false;
 		
 		if (categoria.getNome().isEmpty() || categoria.getNome() == null) {
-			System.err.println("Erro! Campo nome não pode ser nulo ou vazio !!");
+			System.err.println("Erro! Campo 'Nome' não pode ser nulo ou vazio !!");
 			salvo = false;
 		} else {
 			salvo = categoriaDao.salvarCategoria(categoria);

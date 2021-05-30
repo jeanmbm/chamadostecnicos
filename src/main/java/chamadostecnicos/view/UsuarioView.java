@@ -25,8 +25,8 @@ public class UsuarioView {
 			System.out.println("||     EDIÇÃO DE USUARIO     ||");
 			System.out.println("===============================");
 			System.out.println("");
+			scan.nextLine();		
 		}
-		
 		
 		System.out.printf("Digite seu nome: ");
 		usuario.setNome(String.valueOf(scan.nextLine()));
@@ -77,8 +77,6 @@ public class UsuarioView {
 	}
 	
 	public void exibirDadosUsuarios(List<Usuario> usuarios) {
-//		String telefone = "62999999999";
-//		System.out.println(imprimeTelefone(telefone));
 		
 		if (!usuarios.isEmpty()) {
 			System.out.println("");
@@ -88,7 +86,7 @@ public class UsuarioView {
 				System.out.println("");
 				System.out.println("Id: " + usuario.getId());
 				System.out.println("Nome: " + usuario.getNome());
-				System.out.println("Telefone: " + usuario.getTelefone());
+				System.out.println("Telefone: " + imprimeTelefone(usuario.getTelefone()));
 				System.out.println("CPF: " + imprimeCPF(usuario.getCpf()));
 				System.out.println("Email: " + usuario.getEmail());
 				System.out.println("Senha: " + usuario.getSenha());
@@ -111,8 +109,8 @@ public class UsuarioView {
         CPF.substring(6, 9) + "-" + CPF.substring(9, 11));
     }
 	
-//	public static String imprimeTelefone(String telefone) {
-//        return("(" + telefone.substring(0, 2) + ") " + telefone.substring(3, 7) + "-" +
-//        		telefone.substring(8, 11));
-//    }
+	public static String imprimeTelefone(String telefone) {
+        return("(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 7) + "-" +
+        		telefone.substring(7, 11));
+    }
 }

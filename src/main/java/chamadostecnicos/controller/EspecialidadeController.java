@@ -6,6 +6,7 @@ import java.util.Scanner;
 import chamadostecnicos.model.Area;
 import chamadostecnicos.model.Especialidade;
 import chamadostecnicos.model.dao.EspecialidadeDao;
+import chamadostecnicos.model.dao.ServicoDao;
 
 
 public class EspecialidadeController {
@@ -14,8 +15,19 @@ public class EspecialidadeController {
 
 	// C - create
 	public boolean cadastrarEspecialidade(Especialidade especialidade) {
-		especialidadeDao = new EspecialidadeDao();
-		boolean salvo = especialidadeDao.salvarEspecialidade(especialidade);
+		boolean salvo = false;
+		
+		if (especialidade.getNome().isEmpty() || especialidade.getNome() == null) {
+			System.err.println("Erro! Campo 'Nome' não pode ser nulo ou vazio !!");
+			salvo = false;
+		} else if (especialidade.getArea() == null) {
+			System.err.println("Erro! Campo 'Area' não pode ser nulo ou vazio !!");
+			salvo = false;
+		} else {
+			especialidadeDao = new EspecialidadeDao();
+			salvo = especialidadeDao.salvarEspecialidade(especialidade);
+		}
+		
 		return salvo;
 	}
 		
@@ -29,15 +41,36 @@ public class EspecialidadeController {
 		
 	// U - update
 	public boolean editarEspecialidade(Especialidade especialidade) {
-		especialidadeDao = new EspecialidadeDao();
-		boolean editado = especialidadeDao.editarEspecialidade(especialidade);
+		
+		boolean editado = false;
+		
+		if (especialidade.getNome().isEmpty() || especialidade.getNome() == null) {
+			System.err.println("Erro! Campo 'Nome' não pode ser nulo ou vazio !!");
+			editado = false;
+		} else if (especialidade.getArea() == null) {
+			System.err.println("Erro! Campo 'Area' não pode ser nulo ou vazio !!");
+			editado = false;
+		} else {
+			especialidadeDao = new EspecialidadeDao();
+			editado = especialidadeDao.editarEspecialidade(especialidade);
+		}
+		
 		return editado;
 	}
 			
 	// D - delete
 	public boolean apagarEspecialidades (int id) {
-		especialidadeDao = new EspecialidadeDao();
-		boolean deletado = especialidadeDao.deletarEspecialidade(id);
+		boolean deletado = false;
+		
+		if (id > 0) {
+			especialidadeDao = new EspecialidadeDao();
+			deletado = especialidadeDao.deletarEspecialidade(id);
+		} else {
+			System.err.println("Erro! ID não pode ser menor ou igual a 0 !!");
+			System.out.println("");
+			deletado = false;
+		}
+		
 		return deletado;
 	}	
 

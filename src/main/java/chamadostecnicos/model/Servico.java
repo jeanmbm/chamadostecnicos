@@ -20,7 +20,16 @@ public class Servico {
 		categoria = new CategoriaServico();
 	}
 	
-	
+	public Servico(String nome, String descricao, Prioridade prioridade, int idCategoria, Area area) {
+		super();
+		this.nome = nome;
+		this.descricao = descricao;
+		this.prioridade = prioridade;
+		this.idCategoria = idCategoria;
+		this.area = area;
+	}
+
+
 	public int getId() {
 		return id;
 	}
@@ -80,11 +89,10 @@ public class Servico {
 
 	@Override
 	public String toString() {
-		return "\n   Id: " + id + 
-			   "\n   Nome: " + nome + 
+		return "\n   Nome: " + nome + 
 			   "\n   Descrição: " + descricao + 
 			   "\n   Prioridade: " + prioridade + 
-			   "\n   Categoria: " + categoria +
+			   "\n   Categoria: " + categoria.getNome() +
 			   "\n   Area: " + area;
 	}
 
